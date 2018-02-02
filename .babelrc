@@ -1,0 +1,34 @@
+{
+  "presets": [
+    ["env", {
+        "targets": {
+          "browsers": ["last 2 versions", "safari >= 7"]
+        },
+        "useBuiltIns": true
+      }
+    ],
+    "react",
+    "stage-3"
+  ],
+  "plugins": [
+    "react-hot-loader/babel",
+    "transform-object-rest-spread",
+    "transform-es2015-spread"
+
+  ],
+  "env": {
+    "production": {
+      "presets": [
+
+      ],
+      "plugins": [
+
+      ]
+    },
+    "development": {
+      "plugins": [
+        "react-hot-loader/babel"
+      ]
+    }
+  }
+}
