@@ -1,4 +1,5 @@
 import React, {CSSProperties} from 'react';
+import {getVideos} from "@src/config";
 
 /**
  * @link https://blog.cloudboost.io/using-html5-canvas-with-react-ff7d93f5dc76
@@ -176,7 +177,7 @@ class VideoCanvas extends React.Component<{}, IVideoCanvasState> {
         }
 
         //const videoSrc = "http://upload.wikimedia.org/wikipedia/commons/7/79/Big_Buck_Bunny_small.ogv";
-        const videoSrc = 'file:///home/sebastien/Videos/paola-bw.mp4';
+        const videoSrc = getVideos()[0].src;
 
         return(
             <div>
@@ -186,7 +187,7 @@ class VideoCanvas extends React.Component<{}, IVideoCanvasState> {
                         Your browser does not support canvas.
                     </canvas>
                 </div>
-                <div style={{fontFamily: 'Roboto', fontSize: '5em', color: 'white', marginTop: 200, marginLeft: 300}}>
+                <div style={{fontSize: '5em', color: 'white', marginTop: 200, marginLeft: 300}}>
                     Title
                 </div>
                 <div>

@@ -1,6 +1,7 @@
 import React from "react";
 import { Uniform, LinearCopy, Shaders, GLSL, Node } from "gl-react";
 import { Surface } from "gl-react-dom";
+import {getVideos} from "@src/config";
 // import GLTransition from "react-gl-transition";
 
 interface IVideoProps {
@@ -119,8 +120,8 @@ const Persistence = ({ children: t, persistence }: any) => (
 // redraw is passed to Video onFrame event and Node gets redraw each video frame.
 const GLTest = () => {
 
-    const video1 = 'file:///home/sebastien/Videos/paola-bw.mp4';
-    const video2 = 'file:///home/sebastien/Videos/MVI_0291.m4v';
+    const video1 = getVideos()[0].src;
+    const video2 = getVideos()[1].src;
     const width = window.innerWidth;
     return (
         <div>
