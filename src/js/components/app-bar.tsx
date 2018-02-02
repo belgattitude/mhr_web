@@ -31,10 +31,9 @@ export const AppBarComponent: React.SFC<AppMenuProps> = (props) => {
     });
 
     const LinkItem = (props: MenuLinkProps) => {
-        //const raised: boolean = props.active == true;
+        const raised: string = props.active ? 'raised' : '';
         return (
-
-            <NavLink {...props} to={props.path}>
+            <NavLink to={props.path} className={raised}>
                 {props.label}
             </NavLink>
         )

@@ -26,6 +26,7 @@ module.exports = {
     alias: {
       // https://medium.com/@martin_hotell/type-safe-es2015-module-import-path-aliasing-with-webpack-typescript-and-jest-fe461347e010
       '@src': path.resolve(__dirname, 'src/js/'),
+      '@public': path.resolve(__dirname, 'public/')
     }
   },
   output: {
@@ -73,6 +74,15 @@ module.exports = {
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
+      },
+      {
+        test: /\.(mp4|m4v)$/,
+        loader: 'file-loader',
+        /*
+          options: {
+            name: '[path][name].[ext]'
+          }
+         */
       },
       {
         test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,

@@ -7,6 +7,7 @@ import App from './containers/app';
 
 // global styles
 import 'typeface-roboto';
+import 'typeface-quicksand';
 import '../style/style.scss';
 
 const renderApp = (Component: any, elementId: string) => {

@@ -5879,6 +5879,10 @@ normalize-url@^1.4.0:
     query-string "^4.1.0"
     sort-keys "^1.0.0"
 
+normalize.css@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/normalize.css/-/normalize.css-7.0.0.tgz#abfb1dd82470674e0322b53ceb1aaf412938e4bf"
+
 npm-run-all@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/npm-run-all/-/npm-run-all-4.1.2.tgz#90d62d078792d20669139e718621186656cea056"
@@ -8641,6 +8645,10 @@ typedarray-pool@^1.1.0:
 typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
+
+typeface-quicksand@^0.0.54:
+  version "0.0.54"
+  resolved "https://registry.yarnpkg.com/typeface-quicksand/-/typeface-quicksand-0.0.54.tgz#d8f60bcfbea663cda97a0e973f24e6c35d76561a"
 
 typeface-roboto@^0.0.54:
   version "0.0.54"
