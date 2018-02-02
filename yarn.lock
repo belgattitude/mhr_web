@@ -91,9 +91,9 @@
   version "0.0.30"
   resolved "https://registry.yarnpkg.com/@types/strip-json-comments/-/strip-json-comments-0.0.30.tgz#9aa30c04db212a9a0649d6ae6fd50accc40748a1"
 
-"@types/three@^0.89.5":
-  version "0.89.5"
-  resolved "https://registry.yarnpkg.com/@types/three/-/three-0.89.5.tgz#8fa88b7bdfd5f2c79129f812b401de06670d92e1"
+"@types/three@^0.89.6":
+  version "0.89.6"
+  resolved "https://registry.yarnpkg.com/@types/three/-/three-0.89.6.tgz#c0d9efc3005cb8c4ccfcc6914af7891c06654b3b"
   dependencies:
     "@types/webvr-api" "*"
 
