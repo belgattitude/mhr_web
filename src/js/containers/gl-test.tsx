@@ -29,6 +29,8 @@ class Video extends React.Component<IVideoProps, {}> {
         const loop = () => {
             this._raf = requestAnimationFrame(loop);
             const video  = this.videoRef();
+            // to allow crossorigin
+            video.crossOrigin = 'anonymous';
             if (!video) return;
             const currentTime = video.currentTime;
             // Optimization that only call onFrame if time changes

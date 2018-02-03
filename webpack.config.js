@@ -4,6 +4,7 @@ const webpack = require('webpack');
 //const AddModuleExportsPlugin = require('add-module-exports-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const extractSass = new ExtractTextPlugin({
@@ -11,8 +12,8 @@ const extractSass = new ExtractTextPlugin({
 });
 
 module.exports = {
-  //devtool: 'cheap-module-source-map',
-  devtool: 'eval',
+  devtool: 'cheap-module-source-map',
+  //devtool: 'eval',
   entry: [
     'babel-polyfill',
     './src/js/index.tsx'
@@ -78,19 +79,21 @@ module.exports = {
       {
         test: /\.(mp4|m4v)$/,
         loader: 'file-loader',
-        /*
-          options: {
-            name: '[path][name].[ext]'
-          }
-         */
+        options: {
+          name: 'assets/videos/[name].[ext]',
+        }
       },
       {
-        test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        use: 'url-loader?limit=10000',
-      },
-      {
-        test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/,
-        use: 'file-loader',
+        test: /\.woff$|\.woff2?$|\.ttf$|\.eot$|\.otf$/,
+        loader: 'file-loader',
+        //use: 'url-loader?limit=10000',
+        options: {
+          name: 'fonts/[name].[ext]',
+          /*
+          publicPath: function(url) {
+            return url.replace(/public/, '..')
+          },*/
+        },
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
@@ -103,6 +106,17 @@ module.exports = {
     ]
   },
   plugins: [
+/*
+    new webpack.EnvironmentPlugin({
+      'process.env.NODE_ENV': JSON.stringify('production'),
+      NODE_ENV: 'production'
+    }),
+
+    new UglifyJSPlugin({
+      parallel: true,
+      sourceMap: true
+    }),
+*/
     new HtmlWebpackPlugin({
       alwaysWriteToDisk: true,
       hash: true,
@@ -117,7 +131,8 @@ module.exports = {
       jQuery: "jquery", // Used for Bootstrap JavaScript components
       Popper: ['popper.js', 'default'] // Used for Bootstrap dropdown, popup and tooltip JavaScript components
     }),
-    extractSass
+    extractSass,
+
   ],
   devServer: {
     contentBase: path.resolve(__dirname, "build"),

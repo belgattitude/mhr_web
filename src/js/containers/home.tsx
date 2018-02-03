@@ -58,7 +58,7 @@ class Home extends React.Component<IProps, IState> {
         const video = this.state.videos[this.state.videoIdx];
         return (
             <div>
-                Homepage
+                Homepage...
                 <div>
                     <Video title={video.title} src={video.src} />
                 </div>
