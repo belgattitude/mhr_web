@@ -33,7 +33,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: '[name].js',
-    publicPath: './'
+    publicPath: '/', // for production it would be './'
   },
   module: {
     rules: [
@@ -71,6 +71,10 @@ module.exports = {
             loader: "sass-loader" // compiles Sass to CSS
           }]
         })
+      },
+      {
+        test: /\.(glsl|vs|fs)$/,
+        loader: 'ts-shader-loader'
       },
       {
         test: /\.css$/,
