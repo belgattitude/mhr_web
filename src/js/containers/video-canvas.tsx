@@ -169,7 +169,7 @@ class VideoCanvas extends React.Component<{}, IVideoCanvasState> {
         const canvasStyle: CSSProperties = {
             width: this.state.video.width,
             height: this.state.video.height,
-            filter: 'grayscale(1)',
+            //filter: 'grayscale(1)',
             opacity: 0.3,
 
             //width: 800,
@@ -177,7 +177,7 @@ class VideoCanvas extends React.Component<{}, IVideoCanvasState> {
         }
 
         //const videoSrc = "http://upload.wikimedia.org/wikipedia/commons/7/79/Big_Buck_Bunny_small.ogv";
-        const videoSrc = getVideos()[0].src;
+        const videoSrc = getVideos()[1].src;
 
         return(
             <div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import {getVideos, IVideo} from '@src/config';
-import {TestScene} from "@src/components/Scene";
+import {CubeScene, PlaneScene} from "@src/components/Scene";
 
 
 interface IProps {
@@ -32,21 +32,7 @@ class Home extends React.Component<IProps, IState> {
 
 
     componentDidMount() {
-        /*
-        var video = document.getElementById('video');
-        var texture = new THREE.VideoTexture(video);
-        texture.needsUpdate;
-        texture.minFilter = THREE.LinearFilter;
-        texture.magFilter = THREE.LinearFilter;
-        texture.format = THREE.RGBFormat;
-        texture.crossOrigin = 'anonymous';
 
-        var imageObject = new THREE.Mesh(
-            new THREE.PlaneGeometry(600, 400),
-            new THREE.MeshBasicMaterial({ map: texture }),);
-
-        scene.add( imageObject );
-        */
     }
 
     render() {
@@ -57,7 +43,8 @@ class Home extends React.Component<IProps, IState> {
         );
         */
 
-        const video = this.state.videos[this.state.videoIdx];
+        //const video = this.state.videos[this.state.videoIdx];
+        const video = this.state.videos[1];
         return (
             <div>
                 Homepage...
@@ -66,7 +53,11 @@ class Home extends React.Component<IProps, IState> {
                     <Video title={video.title} src={video.src} />
                 </div>
                 */}
-                <TestScene videoSrc={video.src } />
+                {(false) ?
+                    <CubeScene videoSrc={video.src} />
+                    :
+                    <PlaneScene videoSrc={video.src} />
+                }
                 <button onClick={this.nextPage}>Next</button>
             </div>
         );
