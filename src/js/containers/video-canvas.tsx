@@ -96,10 +96,10 @@ class VideoCanvas extends React.Component<{}, IVideoCanvasState> {
                 currentTime > this.currentTime + maxFps ) {
 */
                 this.currentTime = currentTime;
-                const ratio = video.videoWidth / video.videoHeight;
+                const aspect = video.videoWidth / video.videoHeight;
                 const hdpiRatio = window.devicePixelRatio || 1;
-                ctx.drawImage(video, 0, 0, video.videoWidth, (video.videoHeight / ratio),
-                    0, 200, canvas.width / hdpiRatio, (canvas.height / ratio) / hdpiRatio);
+                ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
+                    0, 0, canvas.width / hdpiRatio, (canvas.height / aspect));
 /*
             } else {
                 // console.log('Frame', this.currentTime, currentTime, maxFps);
@@ -112,7 +112,7 @@ class VideoCanvas extends React.Component<{}, IVideoCanvasState> {
 
         video.addEventListener("play", drawScaled, false);
         video.muted = true;
-        video.playbackRate = 0.9;
+        video.playbackRate = 1; //0.9;
         video.play();
 
 
@@ -169,8 +169,10 @@ class VideoCanvas extends React.Component<{}, IVideoCanvasState> {
         const canvasStyle: CSSProperties = {
             width: this.state.video.width,
             height: this.state.video.height,
+
+            opacity: 0.9,
             //filter: 'grayscale(1)',
-            opacity: 0.3,
+            //filter: 'contrast(120%) blur(5px) brightness(110%) grayscale(100%)',
 
             //width: 800,
             //height: 250
