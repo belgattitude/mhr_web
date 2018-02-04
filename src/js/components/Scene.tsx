@@ -4,11 +4,16 @@ import {Mesh, PerspectiveCamera, Scene, WebGLRenderer} from "three";
 
 
 export interface ITestSceneState {
-    width: 600,
-    height: 400
+    width: number;
+    height: number;
+    videoSrc?: string;
 }
 
-export class TestScene extends React.Component<{}, ITestSceneState> {
+export interface ITestSceneProps {
+    videoSrc: string;
+}
+
+export class TestScene extends React.Component<ITestSceneProps, ITestSceneState> {
 
     mount: HTMLDivElement;
     scene: Scene;
@@ -18,12 +23,35 @@ export class TestScene extends React.Component<{}, ITestSceneState> {
     cube: Mesh;
     frameId: number;
 
-    constructor(props) {
+    video: HTMLVideoElement;
+
+    state: ITestSceneState = {
+        width: 600,
+        height: 600,
+    };
+
+    props: ITestSceneProps;
+
+    constructor(props: ITestSceneProps) {
         super(props)
 
+        this.state = {...this.state, videoSrc: this.props.videoSrc};
         this.start = this.start.bind(this)
         this.stop = this.stop.bind(this)
         this.animate = this.animate.bind(this)
+    }
+
+    createVideoElement(videoSrc: string): HTMLVideoElement {
+        const video = document.createElement( 'video' );
+        video.width = 640;
+        video.height = 360;
+        video.loop = true;
+        video.muted = true;
+        video.crossOrigin = 'anonymous';
+        video.src = videoSrc;
+        video.setAttribute( 'webkit-playsinline', 'webkit-playsinline' );
+        video.play();
+        return video;
     }
 
     componentDidMount() {
@@ -39,10 +67,21 @@ export class TestScene extends React.Component<{}, ITestSceneState> {
         )
         const renderer = new THREE.WebGLRenderer({ antialias: true });
         const geometry = new THREE.BoxGeometry(1, 1, 1);
-        const material = new THREE.MeshBasicMaterial({ color: 0xff00ff });
+        //const geometry = new THREE.PlaneGeometry(1, 1);
+
+        const videoSrc = this.state.videoSrc as string;
+        this.video = this.createVideoElement(videoSrc);
+        const texture = new THREE.VideoTexture( this.video );
+        texture.minFilter = THREE.LinearFilter;
+        texture.format = THREE.RGBFormat;
+
+        const material = new THREE.MeshBasicMaterial({
+            //color: 0xffffff,
+            map: texture
+        });
         const cube = new THREE.Mesh(geometry, material);
 
-        camera.position.z = 4;
+        camera.position.z = 2;
         scene.add(cube);
         renderer.setClearColor('#000000');
         renderer.setSize(width, height);
@@ -58,8 +97,11 @@ export class TestScene extends React.Component<{}, ITestSceneState> {
     }
 
     componentWillUnmount() {
+        console.log('UNMOUNTING SCENE');
+        this.video.pause();
         this.stop()
         this.mount.removeChild(this.renderer.domElement)
+        delete this.video;
     }
 
     start() {
@@ -69,6 +111,7 @@ export class TestScene extends React.Component<{}, ITestSceneState> {
     }
 
     stop() {
+        this.video.pause();
         cancelAnimationFrame(this.frameId)
     }
 
@@ -87,7 +130,7 @@ export class TestScene extends React.Component<{}, ITestSceneState> {
     render() {
         return (
             <div
-                style={{ width: '400px', height: '400px' }}
+                style={{ width: '800px', height: '800px' }}
                 ref={(mount) => { this.mount = (mount as HTMLDivElement) }}
             />
         )

@@ -51,18 +51,22 @@ class Home extends React.Component<IProps, IState> {
 
     render() {
 
+        /*
         const Video = (props: any) => (
             <video id='video' key={props.title} src={props.src} width={300} autoPlay={false} controls={true} />
         );
+        */
 
         const video = this.state.videos[this.state.videoIdx];
         return (
             <div>
                 Homepage...
+                {/*
                 <div>
                     <Video title={video.title} src={video.src} />
                 </div>
-                <TestScene/>
+                */}
+                <TestScene videoSrc={video.src } />
                 <button onClick={this.nextPage}>Next</button>
             </div>
         );
