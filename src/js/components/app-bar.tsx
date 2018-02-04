@@ -25,6 +25,7 @@ export const AppBarComponent: React.SFC<AppMenuProps> = (props) => {
         {path: '/', label: 'Home'},
         {path: '/video-canvas', label: 'Canvas'},
         {path: '/gl-test', label: 'GLTest'},
+        {path: '/test-scroll', label: 'Scroll'},
         {path: '/no-match', label: '404'},
     ].map((props: MenuLinkProps) => {
         return {...props, active: (currentPath == props.path)}
