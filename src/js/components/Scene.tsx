@@ -66,6 +66,10 @@ export class TestScene extends React.Component<ITestSceneProps, ITestSceneState>
             1000
         )
         const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setPixelRatio( window.devicePixelRatio );
+        //renderer.setSize( window.innerWidth, window.innerHeight );
+
+
         const geometry = new THREE.BoxGeometry(1, 1, 1);
         //const geometry = new THREE.PlaneGeometry(1, 1);
 
