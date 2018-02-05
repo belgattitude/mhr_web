@@ -7,9 +7,6 @@ const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-const extractSass = new ExtractTextPlugin({
-  filename: "styles.css",
-});
 
 module.exports = {
   devtool: 'cheap-module-source-map',
@@ -60,9 +57,11 @@ module.exports = {
           }
         },
       },
+
       {
         test: /\.(scss)$/,
-        use: extractSass.extract({
+        /** remove css-hot-loader for production */
+        use: ['css-hot-loader'].concat(extractSass.extract({
           fallback: 'style-loader',
           //resolve-url-loader may be chained before sass-loader if necessary
           use: [{
@@ -70,7 +69,7 @@ module.exports = {
           }, {
             loader: "sass-loader" // compiles Sass to CSS
           }]
-        })
+        }))
       },
       {
         test: /\.(glsl|vs|fs)$/,
@@ -142,6 +141,7 @@ module.exports = {
     contentBase: path.resolve(__dirname, "build"),
     port: 3001,
     historyApiFallback: true,
+    hot: true,
     headers: {
         'Access-Control-Allow-Origin': '*',
     }
