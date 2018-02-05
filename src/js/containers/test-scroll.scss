@@ -2,8 +2,9 @@
   background-color: white;
   margin: 20px;
   color: black;
-  height: 400px;
+  height: 600px;
   font-size: 2em;
+  overflow: hidden;
 
   .message {
     transition-duration: 1s;
@@ -11,5 +12,61 @@
     font-size: 3em;
   }
 
+  .video-ctn {
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+
+    .wrap {
+
+      height: 400px;
+      width: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      position: relative;
+      background-color: #ddd;
+      background-image: url(http://yourshot.nationalgeographic.com/u/fQYSUbVfts-T7odkrFJckdiFeHvab0GWOfzhj7tYdC0uglagsDcWh4krIft8VWMm_bPFm3XwpR_B1H9G38SHpkILeW6I7GKinLMWIB1-o7oidIvM2iWxC7fhlW2UXrLr3XUCVcLYw-36ateivClZMa6lmq8LbrrFcDtQnJrWnsdnj0-Ty594gRqy54wTlsFSK1AadmNzF6HUcQX5wT_5qaexfEyU/);
+      /*background-size: cover;*/
+
+      transform: matrix3d(1,0,0.00, calc(var(--mouse-x) / 8000),0.00,1, 0.00, calc(var(--mouse-y) / 8000),0,0,1,0,0,0,0,1);
+
+      background-position-x: calc((var(--mouse-x-px) * 2));
+      box-shadow: rgba(0,0,0,.6) 0 25px 80px -25px, rgba(0,0,0,.4) 0 5px 18px;
+    }
+    .gradient {
+      position: relative;
+      height: 100%;
+      background-image: radial-gradient(
+                      at calc(var(--gradient-x) * 100%) calc(var(--gradient-y) * 100%),
+                      transparent,
+                      rgba(0,0,0,0.9)
+      );
+    }
+    .play {
+      height: 90px;
+      width: 90px;
+      position: absolute;
+      border-radius: 100%;
+      background-color: #2196F3;
+      opacity: .9;
+      top: 50%;
+      margin: -45px 0 0 -45px;
+      left: 50%;
+      transform: translate(calc(var(--mouse-x) * -18px), calc(var(--mouse-y) * -18px));
+      background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgNTEyIDUxMiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNTEyIDUxMjsiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+LnN0MHtmaWxsOiNGRkZGRkY7fTwvc3R5bGU+PHBhdGggY2xhc3M9InN0MCIgZD0iTTQwNS4yLDIzMi45TDEyNi44LDY3LjJjLTMuNC0yLTYuOS0zLjItMTAuOS0zLjJjLTEwLjksMC0xOS44LDktMTkuOCwyMEg5NnYzNDRoMC4xYzAsMTEsOC45LDIwLDE5LjgsMjBjNC4xLDAsNy41LTEuNCwxMS4yLTMuNGwyNzguMS0xNjUuNWM2LjYtNS41LDEwLjgtMTMuOCwxMC44LTIzLjFTNDExLjgsMjM4LjUsNDA1LjIsMjMyLjl6Ii8+PC9zdmc+);
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: 50%;
+    }
+
+  }
+
 
 }
+

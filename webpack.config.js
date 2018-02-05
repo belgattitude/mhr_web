@@ -7,6 +7,9 @@ const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+const extractSass = new ExtractTextPlugin({
+  filename: "style.css",
+});
 
 module.exports = {
   devtool: 'cheap-module-source-map',
