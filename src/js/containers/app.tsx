@@ -14,7 +14,7 @@ const NoMatch = () => (
     <h1 style={{color: 'red'}}>Page not found!</h1>
 );
 
-class App extends React.Component<object, object> {
+class App extends React.Component<{}, {}> {
     public render(): React.ReactElement<App> {
 
         return (
