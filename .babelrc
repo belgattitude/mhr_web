@@ -14,15 +14,15 @@
     "react-hot-loader/babel",
     "transform-object-rest-spread",
     "transform-es2015-spread"
+  ]/*,
 
-  ],
   "env": {
     "production": {
       "presets": [
 
       ],
       "plugins": [
-
+        "react-hot-loader/babel"
       ]
     },
     "development": {
@@ -30,5 +30,6 @@
         "react-hot-loader/babel"
       ]
     }
-  }
+  }*/
+
 }
