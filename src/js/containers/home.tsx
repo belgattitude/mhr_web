@@ -1,22 +1,20 @@
 import React from 'react';
 import {getVideos, IVideo} from '@src/config';
-import {CubeScene, PlaneScene} from "@src/components/Scene";
-
+import {CubeScene, PlaneScene} from '@src/components/Scene';
 
 interface IProps {
     title: string;
 }
 interface IState {
-    videoIdx: number,
-    videos: IVideo[]
+    videoIdx: number;
+    videos: IVideo[];
 }
-
 
 class Home extends React.Component<IProps, IState> {
 
     state: IState = {
         videoIdx: 0,
-        videos: getVideos()
+        videos: getVideos(),
     };
 
     constructor(props: IProps) {
@@ -29,7 +27,6 @@ class Home extends React.Component<IProps, IState> {
             return { ... previousState, videoIdx: videoIdx};
         });
     }
-
 
     componentDidMount() {
 

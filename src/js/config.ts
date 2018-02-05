@@ -10,11 +10,9 @@ const video3mp4 = `${localUrl}/s_paola3.mp4`;
 const video4mp4 = `${localUrl}/m_paola3.m4v`;
 const video5mp4 = `${localUrl}/deshake2.m4v`;
 
-
-
 export interface IVideo  {
-    src: any,
-    title: string,
+    src: any;
+    title: string;
 }
 
 export function getVideos(): IVideo[] {

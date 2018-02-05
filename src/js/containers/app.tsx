@@ -7,8 +7,8 @@ import Home from '@src/containers/home';
 import {Switch} from 'react-router';
 import { AppBarConnected } from '@src/connected/app-bar-connected';
 import GLTest from '@src/containers/gl-test';
-import VideoCanvas from "@src/containers/video-canvas";
-import TestScroll from "@src/containers/test-scroll";
+import VideoCanvas from '@src/containers/video-canvas';
+import TestScroll from '@src/containers/test-scroll';
 
 const NoMatch = () => (
     <h1 style={{color: 'red'}}>Page not found!</h1>

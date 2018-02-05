@@ -2,7 +2,6 @@ import React from 'react';
 import {NavLink} from 'react-router-dom';
 import {RouteComponentProps} from 'react-router';
 
-
 export interface MenuLinkProps {
     path: string;
     label: string;
@@ -28,7 +27,7 @@ export const AppBarComponent: React.SFC<AppMenuProps> = (props) => {
         {path: '/test-scroll', label: 'Scroll'},
         {path: '/no-match', label: '404'},
     ].map((props: MenuLinkProps) => {
-        return {...props, active: (currentPath == props.path)}
+        return {...props, active: (currentPath == props.path)};
     });
 
     const LinkItem = (props: MenuLinkProps) => {
@@ -37,14 +36,14 @@ export const AppBarComponent: React.SFC<AppMenuProps> = (props) => {
             <NavLink to={props.path} className={raised}>
                 {props.label}
             </NavLink>
-        )
+        );
     };
 
     return (
         <div>
             {menuItems.map(({path, label, active}) => { return (
                     <LinkItem key={path} path={path} label={label} active={active} />
-                )}
+                );}
             )}
         </div>
     );

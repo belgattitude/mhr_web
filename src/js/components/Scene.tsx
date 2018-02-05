@@ -1,8 +1,7 @@
 import React from 'react';
 import * as THREE from 'three';
-import {Mesh, PerspectiveCamera, Scene, WebGLRenderer} from "three";
-import {MeshBasicMaterialParameters, ShaderMaterialParameters} from "three/three-core";
-
+import {Mesh, PerspectiveCamera, Scene, WebGLRenderer} from 'three';
+import {MeshBasicMaterialParameters, ShaderMaterialParameters} from 'three/three-core';
 
 export interface ITestSceneState {
     width: number;
@@ -34,12 +33,12 @@ export class CubeScene extends React.Component<ITestSceneProps, ITestSceneState>
     props: ITestSceneProps;
 
     constructor(props: ITestSceneProps) {
-        super(props)
+        super(props);
 
         this.state = {...this.state, videoSrc: this.props.videoSrc};
-        this.start = this.start.bind(this)
-        this.stop = this.stop.bind(this)
-        this.animate = this.animate.bind(this)
+        this.start = this.start.bind(this);
+        this.stop = this.stop.bind(this);
+        this.animate = this.animate.bind(this);
     }
 
     createVideoElement(videoSrc: string): HTMLVideoElement {
@@ -59,19 +58,18 @@ export class CubeScene extends React.Component<ITestSceneProps, ITestSceneState>
         const width = this.mount.clientWidth;
         const height = this.mount.clientHeight;
 
-        const scene = new THREE.Scene()
+        const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(
             75,
             width / height,
             0.1,
             1000
-        )
+        );
         const renderer = new THREE.WebGLRenderer({
-            antialias: true
+            antialias: true,
         });
         renderer.setPixelRatio( window.devicePixelRatio );
         //renderer.setSize( window.innerWidth, window.innerHeight );
-
 
         const geometry = new THREE.BoxGeometry(1, 1, 1);
         //const geometry = new THREE.PlaneGeometry(1, 1);
@@ -84,7 +82,7 @@ export class CubeScene extends React.Component<ITestSceneProps, ITestSceneState>
 
         const videoMaterial = new THREE.MeshBasicMaterial({
             //color: 0xffffff,
-            map: texture
+            map: texture,
         });
 
         const emptyMaterial = new THREE.MeshBasicMaterial({
@@ -93,12 +91,11 @@ export class CubeScene extends React.Component<ITestSceneProps, ITestSceneState>
 
 //        dice = new THREE.Mesh( new THREE.BoxGeometry( 562, 562, 562, 1, 1, 1 ), materials );
 
-
         const materials = [
             videoMaterial,
             emptyMaterial,
             emptyMaterial,
-            videoMaterial
+            videoMaterial,
 
         ];
 
@@ -115,51 +112,50 @@ export class CubeScene extends React.Component<ITestSceneProps, ITestSceneState>
         //this.material = material;
         this.cube = cube;
 
-        this.mount.appendChild(this.renderer.domElement)
-        this.start()
+        this.mount.appendChild(this.renderer.domElement);
+        this.start();
     }
 
     componentWillUnmount() {
         console.log('UNMOUNTING SCENE');
         this.video.pause();
-        this.stop()
-        this.mount.removeChild(this.renderer.domElement)
+        this.stop();
+        this.mount.removeChild(this.renderer.domElement);
         delete this.video;
     }
 
     start() {
         if (!this.frameId) {
-            this.frameId = requestAnimationFrame(this.animate)
+            this.frameId = requestAnimationFrame(this.animate);
         }
     }
 
     stop() {
         this.video.pause();
-        cancelAnimationFrame(this.frameId)
+        cancelAnimationFrame(this.frameId);
     }
 
     animate() {
-        this.cube.rotation.x += 0.01
-        this.cube.rotation.y += 0.01
+        this.cube.rotation.x += 0.01;
+        this.cube.rotation.y += 0.01;
 
-        this.renderScene()
-        this.frameId = window.requestAnimationFrame(this.animate)
+        this.renderScene();
+        this.frameId = window.requestAnimationFrame(this.animate);
     }
 
     renderScene() {
-        this.renderer.render(this.scene, this.camera)
+        this.renderer.render(this.scene, this.camera);
     }
 
     render() {
         return (
             <div
                 style={{ width: '800px', height: '800px' }}
-                ref={(mount) => { this.mount = (mount as HTMLDivElement) }}
+                ref={(mount) => { this.mount = (mount as HTMLDivElement); }}
             />
-        )
+        );
     }
 }
-
 
 export class PlaneScene extends React.Component<ITestSceneProps, ITestSceneState> {
 
@@ -181,12 +177,12 @@ export class PlaneScene extends React.Component<ITestSceneProps, ITestSceneState
     props: ITestSceneProps;
 
     constructor(props: ITestSceneProps) {
-        super(props)
+        super(props);
 
         this.state = {...this.state, videoSrc: this.props.videoSrc};
-        this.start = this.start.bind(this)
-        this.stop = this.stop.bind(this)
-        this.animate = this.animate.bind(this)
+        this.start = this.start.bind(this);
+        this.stop = this.stop.bind(this);
+        this.animate = this.animate.bind(this);
     }
 
     createVideoElement(videoSrc: string): HTMLVideoElement {
@@ -206,19 +202,18 @@ export class PlaneScene extends React.Component<ITestSceneProps, ITestSceneState
         const width = this.mount.clientWidth;
         const height = this.mount.clientHeight;
 
-        const scene = new THREE.Scene()
+        const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(
             75,
             width / height,
             0.1,
             1000
-        )
+        );
         const renderer = new THREE.WebGLRenderer({
-            antialias: true
+            antialias: true,
         });
         renderer.setPixelRatio( window.devicePixelRatio );
         renderer.setSize( window.innerWidth, window.innerHeight );
-
 
         const geometry = new THREE.PlaneGeometry(2, 2);
 
@@ -234,7 +229,7 @@ export class PlaneScene extends React.Component<ITestSceneProps, ITestSceneState
             uniforms: {
                 time: { value: 1.0 },
                 resolution: { value: new THREE.Vector2() },
-                video: videoTexture
+                video: videoTexture,
             },
 
             vertexShader: `
@@ -245,7 +240,6 @@ export class PlaneScene extends React.Component<ITestSceneProps, ITestSceneState
                 }
             `,
 
-
             fragmentShader: `
                 uniform float time;
                 uniform vec2 resolution;
@@ -254,7 +248,7 @@ export class PlaneScene extends React.Component<ITestSceneProps, ITestSceneState
                     float y = mod(time + gl_FragCoord.y, 20.) < 10. ? 1. : 0.;
                     gl_FragColor = vec4(vec3(min(x, y)), 1.);
                 }
-            `
+            `,
 
             /*
             fragmentShader: `
@@ -278,25 +272,20 @@ export class PlaneScene extends React.Component<ITestSceneProps, ITestSceneState
 
         } as MeshBasicMaterialParameters);
 
-
-
-
         const materials = [
-            videoMaterial
+            videoMaterial,
         ];
 
         const videoMesh = new THREE.Mesh(geometry, materials);
         scene.add(videoMesh);
 
-
         camera.position.z = 2;
         //scene.add(shaderMaterial);
 
-        shaderMaterial.transparent=true;
-        const blendings = [ "NoBlending", "NormalBlending", "AdditiveBlending", "SubtractiveBlending", "MultiplyBlending" ];
+        shaderMaterial.transparent = true;
+        const blendings = [ 'NoBlending', 'NormalBlending', 'AdditiveBlending', 'SubtractiveBlending', 'MultiplyBlending' ];
 
         shaderMaterial.blending = THREE[blendings[3]];
-
 
         const shaderMesh = new THREE.Mesh(new THREE.PlaneGeometry( 2, 2 ), shaderMaterial );
         scene.add(shaderMesh);
@@ -309,37 +298,37 @@ export class PlaneScene extends React.Component<ITestSceneProps, ITestSceneState
         this.renderer = renderer;
         //this.plane = plane;
 
-        this.mount.appendChild(this.renderer.domElement)
-        this.start()
+        this.mount.appendChild(this.renderer.domElement);
+        this.start();
     }
 
     componentWillUnmount() {
         console.log('UNMOUNTING SCENE');
         this.video.pause();
-        this.stop()
-        this.mount.removeChild(this.renderer.domElement)
+        this.stop();
+        this.mount.removeChild(this.renderer.domElement);
         delete this.video;
     }
 
     start() {
         if (!this.frameId) {
-            this.frameId = requestAnimationFrame(this.animate)
+            this.frameId = requestAnimationFrame(this.animate);
         }
     }
 
     stop() {
         this.video.pause();
-        cancelAnimationFrame(this.frameId)
+        cancelAnimationFrame(this.frameId);
     }
 
     animate() {
 
-        this.renderScene()
-        this.frameId = window.requestAnimationFrame(this.animate)
+        this.renderScene();
+        this.frameId = window.requestAnimationFrame(this.animate);
     }
 
     renderScene() {
-        this.renderer.render(this.scene, this.camera)
+        this.renderer.render(this.scene, this.camera);
     }
 
     render() {
@@ -352,8 +341,8 @@ export class PlaneScene extends React.Component<ITestSceneProps, ITestSceneState
         return (
             <div
                 style={style}
-                ref={(mount) => { this.mount = (mount as HTMLDivElement) }}
+                ref={(mount) => { this.mount = (mount as HTMLDivElement); }}
             />
-        )
+        );
     }
 }

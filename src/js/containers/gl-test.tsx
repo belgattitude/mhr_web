@@ -1,13 +1,13 @@
-import React from "react";
-import { Uniform, LinearCopy, Shaders, GLSL, Node } from "gl-react";
-import { Surface } from "gl-react-dom";
-import {getVideos} from "@src/config";
+import React from 'react';
+import { Uniform, LinearCopy, Shaders, GLSL, Node } from 'gl-react';
+import { Surface } from 'gl-react-dom';
+import {getVideos} from '@src/config';
 // import GLTransition from "react-gl-transition";
 
 interface IVideoProps {
-    onFrame: any,
-    autoPlay?: boolean,
-    loop?: boolean
+    onFrame: any;
+    autoPlay?: boolean;
+    loop?: boolean;
 }
 // We implement a component <Video> that is like <video>
 // but provides a onFrame hook so we can efficiently only render
@@ -17,7 +17,7 @@ class Video extends React.Component<IVideoProps, {}> {
     _raf: number;
     currentTime: number;
 
-    videoRef = () => { return this.refs.video as HTMLVideoElement };
+    videoRef = () => { return this.refs.video as HTMLVideoElement; };
 
     constructor(props: IVideoProps) {
         super(props);
@@ -31,7 +31,7 @@ class Video extends React.Component<IVideoProps, {}> {
             const video  = this.videoRef();
             // to allow crossorigin
             video.crossOrigin = 'anonymous';
-            if (!video) return;
+            if (!video) { return; }
             const currentTime = video.currentTime;
             // Optimization that only call onFrame if time changes
             if (currentTime !== this.currentTime) {
@@ -67,9 +67,8 @@ void main () {
     texture2D(back, uv+vec2(0.0, 0.005)),
     persistence
   ).rgb, 1.0);
-}`
+}`,
     },
-
 
     SplitColor: {
         frag: GLSL`
@@ -79,7 +78,7 @@ uniform sampler2D children;
 void main() {
   vec4 c = texture2D(children, uv);
   gl_FragColor = vec4(uv.x, c.y, 0.5, 0.5);
-}`
+}`,
   /*
         frag: GLSL`
 precision highp float;
@@ -94,20 +93,18 @@ void main () {
     c.b * step(0.0, y) * step(y, 1.0),
     1.0);
 }`*/
-    }
+    },
     //^NB perf: in fragment shader paradigm, we want to avoid code branch (if / for)
     // and prefer use of built-in functions and just giving the GPU some computating.
     // step(a,b) is an alternative to do if(): returns 1.0 if a<b, 0.0 otherwise.
 });
-
-
 
 const SplitColor = (props: any) => {
     const children = props.children;
     return (
         <Node shader={shaders.SplitColor} uniforms={{ children }} />
     );
-}
+};
 
 const Persistence = ({ children: t, persistence }: any) => (
     <Node
@@ -158,8 +155,7 @@ const GLTest = () => {
             </LinearCopy>
         </Surface>
         </div>
-    )
+    );
 };
 
 export default GLTest;
-

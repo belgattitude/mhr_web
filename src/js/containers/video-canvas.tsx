@@ -1,5 +1,5 @@
 import React, {CSSProperties} from 'react';
-import {getVideos} from "@src/config";
+import {getVideos} from '@src/config';
 
 /**
  * @link https://blog.cloudboost.io/using-html5-canvas-with-react-ff7d93f5dc76
@@ -11,8 +11,8 @@ interface IVideoState {
 }
 
 interface IVideoCanvasState {
-    video: IVideoState,
-    title: string
+    video: IVideoState;
+    title: string;
 }
 
 class VideoCanvas extends React.Component<{}, IVideoCanvasState> {
@@ -23,9 +23,9 @@ class VideoCanvas extends React.Component<{}, IVideoCanvasState> {
 
     requestAnimationFrame?: number;
 
-    videoRef = () => { return this.refs.video as HTMLVideoElement };
-    canvasRef = () => { return this.refs.canvas as HTMLCanvasElement };
-    imageRef = () => { return this.refs.image as HTMLImageElement };
+    videoRef = () => { return this.refs.video as HTMLVideoElement; };
+    canvasRef = () => { return this.refs.canvas as HTMLCanvasElement; };
+    imageRef = () => { return this.refs.image as HTMLImageElement; };
 
     constructor(props: {}) {
         super(props);
@@ -35,8 +35,8 @@ class VideoCanvas extends React.Component<{}, IVideoCanvasState> {
                 width: window.innerWidth,
                 height: window.innerHeight,
             },
-            title: 'Hello world'
-        }
+            title: 'Hello world',
+        };
         this.updateDimensions = this.updateDimensions.bind(this);
     }
 
@@ -49,22 +49,21 @@ class VideoCanvas extends React.Component<{}, IVideoCanvasState> {
     }
 
     initAnimation(): void {
-        window.addEventListener("resize", this.updateDimensions, false);
+        window.addEventListener('resize', this.updateDimensions, false);
         window.addEventListener('orientationchange', this.updateDimensions, false);
 
     }
 
-
     componentDidMount() {
 
-        this.initAnimation()
+        this.initAnimation();
 
         const canvas = this.canvasRef();
         //const img = this.imageRef();
         const video = this.videoRef();
 
-        const ctx = canvas.getContext("2d");
-        if (ctx === null) return;
+        const ctx = canvas.getContext('2d');
+        if (ctx === null) { return; }
 
         scaleCanvas(canvas, ctx, this.state.video.width, this.state.video.height);
 
@@ -86,7 +85,6 @@ class VideoCanvas extends React.Component<{}, IVideoCanvasState> {
                 return;
             }
 
-
             const currentTime = video.currentTime;
 
             // Optimization
@@ -95,10 +93,10 @@ class VideoCanvas extends React.Component<{}, IVideoCanvasState> {
             if (this.currentTime == 0 ||
                 currentTime > this.currentTime + maxFps ) {
 */
-                this.currentTime = currentTime;
-                const aspect = video.videoWidth / video.videoHeight;
-                const hdpiRatio = window.devicePixelRatio || 1;
-                ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
+            this.currentTime = currentTime;
+            const aspect = video.videoWidth / video.videoHeight;
+            const hdpiRatio = window.devicePixelRatio || 1;
+            ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
                     0, 0, canvas.width / hdpiRatio, (canvas.height / aspect));
 /*
             } else {
@@ -110,24 +108,23 @@ class VideoCanvas extends React.Component<{}, IVideoCanvasState> {
             this.requestAnimationFrame = requestAnimationFrame(drawScaled);
         };
 
-        video.addEventListener("play", drawScaled, false);
+        video.addEventListener('play', drawScaled, false);
         video.muted = true;
         video.playbackRate = 1; //0.9;
         video.play();
-
 
         ctx.drawImage(video, 0, 0);
     }
 
     componentWillUnmount() {
-        window.removeEventListener("resize", this.updateDimensions);
-        window.removeEventListener("orientationchange", this.updateDimensions);
+        window.removeEventListener('resize', this.updateDimensions);
+        window.removeEventListener('orientationchange', this.updateDimensions);
         const deleteRefs = () => {
             if (this.refs.video instanceof HTMLVideoElement
                 && this.refs.video.paused) {
                     this.refs.video.pause();
             }
-        }
+        };
         deleteRefs();
         if (this.requestAnimationFrame !== undefined) {
             cancelAnimationFrame(this.requestAnimationFrame);
@@ -139,8 +136,8 @@ class VideoCanvas extends React.Component<{}, IVideoCanvasState> {
             return {...state, video: {
                 width: window.innerWidth,
                 height: window.innerHeight,
-            }}
-        })
+            }};
+        });
     }
 
     render() {
@@ -151,7 +148,7 @@ class VideoCanvas extends React.Component<{}, IVideoCanvasState> {
         };
 
         const canvasContainerStyle: CSSProperties = {
-            position: "fixed",
+            position: 'fixed',
             top: 0,
             left: 0,
             bottom: 0,
@@ -162,7 +159,7 @@ class VideoCanvas extends React.Component<{}, IVideoCanvasState> {
             width: this.state.video.width,
             height: this.state.video.height,
             backgroundColor: 'black',
-            zIndex: -100
+            zIndex: -100,
 
         };
 
@@ -176,7 +173,7 @@ class VideoCanvas extends React.Component<{}, IVideoCanvasState> {
 
             //width: 800,
             //height: 250
-        }
+        };
 
         //const videoSrc = "http://upload.wikimedia.org/wikipedia/commons/7/79/Big_Buck_Bunny_small.ogv";
         const videoSrc = getVideos()[1].src;
@@ -206,14 +203,13 @@ class VideoCanvas extends React.Component<{}, IVideoCanvasState> {
                 <img ref="image"
                      src={img} style={{width: '100%', height: 'auto', ...hiddenStyle}} />
             </div>
-        )
+        );
     }
 }
 export default VideoCanvas;
 
-
 export function throttle(callback: () => void, limit: number) {
-    var wait = false;
+    let wait = false;
     return () => {
         if (!wait) {
             callback();
@@ -222,7 +218,7 @@ export function throttle(callback: () => void, limit: number) {
                 wait = false;
             }, limit);
         }
-    }
+    };
 }
 
 export function scaleCanvas(canvas: HTMLCanvasElement, context: any, width: number, height: number) {
@@ -249,8 +245,7 @@ export function scaleCanvas(canvas: HTMLCanvasElement, context: any, width: numb
         // ...then scale it back down with CSS
         canvas.style.width = width + 'px';
         canvas.style.height = height + 'px';
-    }
-    else {
+    } else {
         // this is a normal 1:1 device; just scale it simply
         canvas.width = width;
         canvas.height = height;

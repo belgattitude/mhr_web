@@ -6,9 +6,9 @@ interface IProps {
     title: string;
 }
 interface IState {
-    videoIdx: number,
-    messageIdx: number,
-    videos: IVideo[]
+    videoIdx: number;
+    messageIdx: number;
+    videos: IVideo[];
 }
 
 class TestScroll extends React.Component<IProps, IState> {
@@ -16,18 +16,19 @@ class TestScroll extends React.Component<IProps, IState> {
     state: IState = {
         videoIdx: 0,
         messageIdx: 0,
-        videos: getVideos()
+        videos: getVideos(),
     };
 
-    messages: string[] = ['Step One', 'Step two', 'Step three', 'Step four'];
+    private messages: string[] = ['Step One', 'Step two', '33333333333333333333333333"', '44444444444444444444444444444444444'];
 
     constructor(props: IProps) {
         super(props);
+
     }
 
     handleWheel(e: React.WheelEvent<HTMLDivElement>): boolean {
 
-        enum Direction {Up, Down, Right, Left, Unknown};
+        enum Direction {Up, Down, Right, Left, Unknown}
         let direction: Direction = Direction.Unknown;
 
         if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
@@ -52,6 +53,13 @@ class TestScroll extends React.Component<IProps, IState> {
         console.log('e', e.deltaX);
         console.log('e', e.deltaY);
 
+/*
+        this.interval = window.setInterval(
+            () => this.setState(prevState => ({ count: prevState.count + 1 })),
+            200,
+        );
+  */
+
         return false;
     }
 
@@ -69,7 +77,6 @@ class TestScroll extends React.Component<IProps, IState> {
 
     }
 
-
     componentDidMount() {
 
     }
@@ -78,8 +85,8 @@ class TestScroll extends React.Component<IProps, IState> {
 
         const msg = this.messages[this.state.messageIdx];
         return (
-            <div className="scroll-ctn" onWheel={e => this.handleWheel(e) }>
-                <div className="message">{msg}</div>
+            <div className="scroll-ctn" onWheel={e => this.handleWheel(e)}>
+                <div className="message">{msg}AAAAA</div>
             </div>
 
         );
