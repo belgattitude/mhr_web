@@ -76,14 +76,24 @@ export class CubeScene extends React.Component<ITestSceneProps, ITestSceneState>
 
         const videoSrc = this.state.videoSrc as string;
         this.video = this.createVideoElement(videoSrc);
-        const texture = new THREE.VideoTexture( this.video );
-        texture.minFilter = THREE.LinearFilter;
-        texture.format = THREE.RGBFormat;
+        const videoTexture = new THREE.VideoTexture( this.video );
+        videoTexture.minFilter = THREE.LinearFilter;
+        videoTexture.format = THREE.RGBFormat;
 
         const videoMaterial = new THREE.MeshBasicMaterial({
             //color: 0xffffff,
-            map: texture,
+            map: videoTexture,
         });
+
+
+        const video2Material = new THREE.MeshBasicMaterial({
+            map: videoTexture,
+            //   opacity: 0.1
+
+        } as MeshBasicMaterialParameters);
+
+
+
 
         const emptyMaterial = new THREE.MeshBasicMaterial({
             color: 0xffffff,
@@ -95,7 +105,7 @@ export class CubeScene extends React.Component<ITestSceneProps, ITestSceneState>
             videoMaterial,
             emptyMaterial,
             emptyMaterial,
-            videoMaterial,
+            video2Material,
 
         ];
 
@@ -287,7 +297,9 @@ export class PlaneScene extends React.Component<ITestSceneProps, ITestSceneState
 
         shaderMaterial.blending = THREE[blendings[3]];
 
-        const shaderMesh = new THREE.Mesh(new THREE.PlaneGeometry( 2, 2 ), shaderMaterial );
+        const planeGeometry = new THREE.PlaneGeometry( 2, 2 );
+        const shaderMesh = new THREE.Mesh(planeGeometry, shaderMaterial );
+
         scene.add(shaderMesh);
 
         renderer.setClearColor('#000000');
@@ -296,7 +308,7 @@ export class PlaneScene extends React.Component<ITestSceneProps, ITestSceneState
         this.scene = scene;
         this.camera = camera;
         this.renderer = renderer;
-        //this.plane = plane;
+        this.plane = shaderMesh;
 
         this.mount.appendChild(this.renderer.domElement);
         this.start();

@@ -50,7 +50,7 @@ class Home extends React.Component<IProps, IState> {
                     <Video title={video.title} src={video.src} />
                 </div>
                 */}
-                {(false) ?
+                {(true) ?
                     <CubeScene videoSrc={video.src} />
                     :
                     <PlaneScene videoSrc={video.src} />
