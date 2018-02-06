@@ -91,24 +91,30 @@ class TestScroll extends React.Component<IProps, IState> {
     }
 
     componentDidMount() {
-        this.onMouseMove = throttle((e: React.MouseEvent<HTMLDivElement>) => {
-            this.handleMouseMove(e);
-        }, 100);
 
-        this.handleMouseMove = throttle(this.handleMouseMove.bind(this), 100)
+        this.handleMouseMove = throttle(this.handleMouseMove.bind(this), 50, {
+            leading: true
+        })
 
     }
 
 
-    handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
-        const wrap = e.target as HTMLDivElement;
-        var w = wrap.offsetWidth;
-        var h = wrap.offsetHeight;
+
+
+    handleMouseMove(e: React.MouseEvent<HTMLDivElement>): void {
+        const wrap = e.currentTarget as HTMLDivElement;
+        if (wrap === null) return;
+        const w = wrap.offsetWidth;
+        const h = wrap.offsetHeight;
+
         var center = w / 2;
         var middle = h / 2;
 
-        var x = e.clientX - wrap.offsetLeft;
-        var y = e.clientY - wrap.offsetTop;
+        //let x = e.nativeEvent.offsetX; // (e.clientX - wrap.offsetLeft)
+        //console.log('equals', e.clientX - wrap.offsetLeft, x);
+        //let y = e.nativeEvent.offsetY;
+        let x = e.clientX - wrap.offsetLeft;
+        let y = e.clientY - wrap.offsetTop;
 
         var gradientX = 1 - (x / w);
         var gradientY = 1 - (y / h);
@@ -127,7 +133,6 @@ class TestScroll extends React.Component<IProps, IState> {
             y = (y - middle)/middle;
         }
 
-
         const root = wrap.parentElement as HTMLDivElement;
 
         root.style.setProperty("--mouse-x", (x).toString());
@@ -135,7 +140,6 @@ class TestScroll extends React.Component<IProps, IState> {
 
         root.style.setProperty("--mouse-x-px", (x).toString() + 'px');
         root.style.setProperty("--mouse-y-px", (y).toString() + 'px');
-
 
         root.style.setProperty("--gradient-x", gradientX.toString());
         root.style.setProperty("--gradient-y", gradientY.toString());
@@ -150,20 +154,22 @@ class TestScroll extends React.Component<IProps, IState> {
         return (
             <div className="scroll-ctn"
                  onWheel={e => this.handleWheel(e)}
+
                  onMouseMove={(e: React.MouseEvent<HTMLDivElement>) => {
                      e.persist();
                      this.handleMouseMove(e);
                  }}
+
             >
                 <div className="video-ctn">
                     <div className="wrap" >
                         {/*<div className="play"></div>*/}
                         <div className="gradient"></div>
                     </div>
-                    <div className="message">{msg}AAAAA</div>
-                    <Box />
-
                 </div>
+                <div className="message">{msg}AAAAA</div>
+                <Box />
+
             </div>
 
         );

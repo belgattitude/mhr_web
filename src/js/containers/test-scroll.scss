@@ -37,14 +37,22 @@
       /*
       transform: matrix3d(1,0,0.00, calc(var(--mouse-x) / 8000),0.00,1, 0.00, calc(var(--mouse-y) / 8000),0,0,1,0,0,0,0,1);
 */
-      background-position-x: calc((var(--mouse-x-px) * 2));
+      //transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1); // same as ease
+      //background-position-x: calc((var(--mouse-x-px) * 2));
+      /*
+      transition-timing-function: ease-in;
+      transition: 0.4s;
+      */
+      transform: translateX(calc((var(--mouse-x-px) * 2)));
+
       box-shadow: rgba(0,0,0,.6) 0 25px 80px -25px, rgba(0,0,0,.4) 0 5px 18px;
     }
     .gradient {
       position: relative;
       height: 100%;
+
       background-image: radial-gradient(
-                      at calc(var(--gradient-x) * 100%) calc(var(--gradient-y) * 100%),
+                      at calc(var(--gradient-x) * 30%) calc(var(--gradient-y) * 30%),
                       transparent,
                       rgba(0,0,0,0.9)
       );
