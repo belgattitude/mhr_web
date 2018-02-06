@@ -32,10 +32,11 @@
       position: relative;
       background-color: #ddd;
       background-image: url(http://yourshot.nationalgeographic.com/u/fQYSUbVfts-T7odkrFJckdiFeHvab0GWOfzhj7tYdC0uglagsDcWh4krIft8VWMm_bPFm3XwpR_B1H9G38SHpkILeW6I7GKinLMWIB1-o7oidIvM2iWxC7fhlW2UXrLr3XUCVcLYw-36ateivClZMa6lmq8LbrrFcDtQnJrWnsdnj0-Ty594gRqy54wTlsFSK1AadmNzF6HUcQX5wT_5qaexfEyU/);
-      /*background-size: cover;*/
+      background-size: cover;
 
+      /*
       transform: matrix3d(1,0,0.00, calc(var(--mouse-x) / 8000),0.00,1, 0.00, calc(var(--mouse-y) / 8000),0,0,1,0,0,0,0,1);
-
+*/
       background-position-x: calc((var(--mouse-x-px) * 2));
       box-shadow: rgba(0,0,0,.6) 0 25px 80px -25px, rgba(0,0,0,.4) 0 5px 18px;
     }

@@ -2,7 +2,7 @@ import React from 'react';
 import {getVideos, IVideo} from '@src/config';
 import './test-scroll.scss';
 import {TweenMax, TweenLite, TimelineLite, Elastic, Back} from 'gsap';
-
+import throttle from 'lodash/throttle';
 //const SplitText = require('@src/thirdparty/SplitText.min');
 import SplitText from '@src/thirdparty/SplitText.min.js';
 
@@ -30,8 +30,9 @@ class TestScroll extends React.Component<IProps, IState> {
 
     constructor(props: IProps) {
         super(props);
-
     }
+
+    protected onMouseMove: any;
 
     handleWheel(e: React.WheelEvent<HTMLDivElement>): boolean {
 
@@ -90,12 +91,17 @@ class TestScroll extends React.Component<IProps, IState> {
     }
 
     componentDidMount() {
+        this.onMouseMove = throttle((e: React.MouseEvent<HTMLDivElement>) => {
+            this.handleMouseMove(e);
+        }, 100);
+
+        this.handleMouseMove = throttle(this.handleMouseMove.bind(this), 100)
+
     }
 
 
-    handleMouseMove(e: MouseEvent) {
-
-        const wrap = (e.target) as HTMLDivElement;
+    handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
+        const wrap = e.target as HTMLDivElement;
         var w = wrap.offsetWidth;
         var h = wrap.offsetHeight;
         var center = w / 2;
@@ -142,7 +148,13 @@ class TestScroll extends React.Component<IProps, IState> {
         const Box = () => (<BoxMessage text={msg} />);
 
         return (
-            <div className="scroll-ctn" onWheel={e => this.handleWheel(e)} onMouseMove={(e: any) => { this.handleMouseMove(e) }}>
+            <div className="scroll-ctn"
+                 onWheel={e => this.handleWheel(e)}
+                 onMouseMove={(e: React.MouseEvent<HTMLDivElement>) => {
+                     e.persist();
+                     this.handleMouseMove(e);
+                 }}
+            >
                 <div className="video-ctn">
                     <div className="wrap" >
                         {/*<div className="play"></div>*/}
