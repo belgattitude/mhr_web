@@ -7568,6 +7568,16 @@ regjsparser@^0.1.4:
   dependencies:
     jsesc "~0.5.0"
 
+regl-transition@^1.13.4:
+  version "1.13.4"
+  resolved "https://registry.yarnpkg.com/regl-transition/-/regl-transition-1.13.4.tgz#b9c7ec17351ec72ff45b13364edce9650b680757"
+  dependencies:
+    regl "^1.3.0"
+
+regl@^1.3.0, regl@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/regl/-/regl-1.3.1.tgz#2995e63a7984c520ef2da0f6f1027f7051338140"
+
 relateurl@0.2.x:
   version "0.2.7"
   resolved "https://registry.yarnpkg.com/relateurl/-/relateurl-0.2.7.tgz#54dbf377e51440aca90a4cd274600d3ff2d888a9"

@@ -1,161 +1,175 @@
 import React from 'react';
-import { Uniform, LinearCopy, Shaders, GLSL, Node } from 'gl-react';
-import { Surface } from 'gl-react-dom';
-import {getVideos} from '@src/config';
-// import GLTransition from "react-gl-transition";
+const GLTransitions = require("gl-transitions");
+import createREGL from 'regl';
+const createREGLTransition = require("regl-transition");
 
-interface IVideoProps {
-    onFrame: any;
-    autoPlay?: boolean;
-    loop?: boolean;
+
+
+
+
+export const loadImage = (src) => {
+
+    return new Promise((resolve, reject) => {
+        if (src.match(/\.(jpg|png|gif)\b/)) {
+            const img = new Image();
+            img.crossOrigin = 'anonyous';
+            img.onload = () => resolve(img);
+            img.onerror = reject;
+            img.onabort = reject;
+            img.src = src;
+        } else {
+            console.log('loading video', src);
+            const video = window.document.createElement('video');
+            video.onloadedmetadata = () => resolve(video);
+            video.autoplay = true;
+            video.muted = true;
+            video.crossOrigin = 'anonymous';
+            video.onerror = reject;
+            video.onabort = reject;
+            video.src = src;
+            video.play();
+        }
+    });
+
 }
-// We implement a component <Video> that is like <video>
-// but provides a onFrame hook so we can efficiently only render
-// if when it effectively changes.
-class Video extends React.Component<IVideoProps, {}> {
 
-    _raf: number;
-    currentTime: number;
+export const loadVideos = src =>
+    new Promise((resolve, reject) => {
+        const video = new HTMLVideoElement();
+        video.oncanplay = () => resolve(video);
+        video.autoplay = false;
+        video.muted = true;
+        video.onerror = reject;
+        video.onabort = reject;
+        video.src = src;
+    });
 
-    videoRef = () => { return this.refs.video as HTMLVideoElement; };
 
-    constructor(props: IVideoProps) {
+class Slider extends React.Component<{}, {}> {
+
+    regl: any;
+    canvas: HTMLCanvasElement;
+    loadedTextures: any[];
+    webglContext: WebGLRenderingContext;
+
+    constructor(props) {
         super(props);
-        this._raf = 0;
-        this.currentTime = 0;
     }
 
     componentDidMount() {
-        const loop = () => {
-            this._raf = requestAnimationFrame(loop);
-            const video  = this.videoRef();
-            // to allow crossorigin
-            video.crossOrigin = 'anonymous';
-            if (!video) { return; }
-            const currentTime = video.currentTime;
-            // Optimization that only call onFrame if time changes
-            if (currentTime !== this.currentTime) {
-                this.currentTime = currentTime;
-                this.props.onFrame(currentTime);
-            }
-        };
-        this._raf = requestAnimationFrame(loop);
+
+        console.log('didmount');
+        const delay = 1;
+        const duration = 1.5;
+        const imgSrcs = "wxqlQkh,G2Whuq3,0bUSEBX"
+            .split(",")
+            .map(id => `https://i.imgur.com/${id}.jpg`);
+
+        //imgSrcs.push('http://localhost/paola/deshake.m4v');
+
+        const context = this.canvas.getContext('webgl', {
+            antialias: false,
+            //stencil: true,
+            //preserveDrawingBuffer: true
+        });
+
+        if (context == null) return;
+        this.webglContext = context;
+
+        //document.body.appendChild(canvas)
+
+
+        this.regl = createREGL(this.webglContext);
+        const transitions = GLTransitions.map(t => createREGLTransition(this.regl, t));
+
+        Promise.all(imgSrcs.map(loadImage)).then(imgs => {
+            this.loadedTextures = imgs.map(img => this.regl.texture(img));
+            this.regl.frame(({ time }) => {
+                const slides = this.loadedTextures;
+                const index = Math.floor(time / (delay + duration));
+                const from = slides[index % slides.length];
+                const to = slides[(index + 1) % slides.length];
+                const transition = transitions[index % transitions.length];
+                const total = delay + duration;
+                const progress = Math.max(0, (time - index * total - delay) / duration);
+                transition({ progress, from, to });
+            });
+
+        }).catch((reason) => {
+            console.log('LOAD FAILED', reason);
+        });
     }
 
+
     componentWillUnmount() {
-        cancelAnimationFrame(this._raf);
+        console.log('will unmount');
+        console.log('this.webglContext', this.webglContext);
+        /*
+        this.loadedTextures.forEach((texture) => {
+            this.webglContext.deleteTexture(texture);
+        });
+        */
+        this.regl.destroy();
+        console.log('this.textures', this.loadedTextures);
+        delete this.webglContext;
     }
 
     render() {
-        const { onFrame, ...rest } = this.props;
-        return <video {...rest} ref="video" />;
+        return (
+            <div>
+                Hello
+                <canvas
+                    style={{
+                        width: window.innerWidth,
+                        height: 400,
+                        position: 'absolute',
+                        zIndex: -2,
+                        top: 200,
+                        left: 0,
+                        bottom: 0,
+                        right: 0
+                    }}
+                    ref={(ref: HTMLCanvasElement) => {this.canvas = ref}} />
+            </div>
+        )
     }
 }
 
-// Our example will simply split R G B channels of the video.
-const shaders = Shaders.create({
 
-    Persistence: {
-        frag: GLSL`
-precision highp float;
-varying vec2 uv;
-uniform sampler2D t, back;
-uniform float persistence;
-void main () {
-  gl_FragColor = vec4(mix(
-    texture2D(t, uv),
-    texture2D(back, uv+vec2(0.0, 0.005)),
-    persistence
-  ).rgb, 1.0);
-}`,
-    },
+interface IGLTestState {
+    visible: boolean
+}
 
-    SplitColor: {
-        frag: GLSL`
-precision highp float;
-varying vec2 uv;
-uniform sampler2D children;
-void main() {
-  vec4 c = texture2D(children, uv);
-  gl_FragColor = vec4(uv.x, c.y, 0.5, 0.5);
-}`,
-  /*
-        frag: GLSL`
-precision highp float;
-varying vec2 uv;
-uniform sampler2D children;
-void main () {
-  float y = uv.y * 2.0;
-  vec4 c = texture2D(children, vec2(uv.x, mod(y, 1.0)));
-  gl_FragColor = vec4(
-    c.r * step(2.0, y) * step(y, 3.0),
-    c.g * step(1.0, y) * step(y, 2.0),
-    c.b * step(0.0, y) * step(y, 1.0),
-    1.0);
-}`*/
-    },
-    //^NB perf: in fragment shader paradigm, we want to avoid code branch (if / for)
-    // and prefer use of built-in functions and just giving the GPU some computating.
-    // step(a,b) is an alternative to do if(): returns 1.0 if a<b, 0.0 otherwise.
-});
+class GLTest extends React.Component<{}, IGLTestState> {
 
-const SplitColor = (props: any) => {
-    const children = props.children;
-    return (
-        <Node shader={shaders.SplitColor} uniforms={{ children }} />
-    );
-};
+    state: IGLTestState = {
+        visible: true
+    };
 
-const Persistence = ({ children: t, persistence }: any) => (
-    <Node
-        shader={shaders.Persistence}
-        backbuffering
-        uniforms={{ t, back: Uniform.Backbuffer, persistence }}
-    />
-);
+    toggleSlider() {
+        this.setState((prevState) => {
+            return {
+                ...prevState,
+                visible: !prevState.visible,
+            }
+        })
+    }
 
-// We now uses <Video> in our GL graph.
-// The texture we give to <SplitColor> is a (redraw)=><Video> function.
-// redraw is passed to Video onFrame event and Node gets redraw each video frame.
-const GLTest = () => {
+    render() {
 
-    const video1 = getVideos()[0].src;
-    const video2 = getVideos()[1].src;
-    const width = window.innerWidth;
-    return (
-        <div>
-        <Surface width={width} height={630} pixelRatio={1}>
-            <SplitColor>
-                {(redraw: any) => (
-                    <Video onFrame={redraw} autoPlay loop>
-                        <source type="video/mp4" src={video2} />
-                    </Video>
-                )}
-            </SplitColor>
-        </Surface>
-        <Surface width={width} height={630} pixelRatio={1}>
-            {/*
-            <GLTransition
-                onConnectSizeComponentRef={() => { return }}
-                transition={transition}
-                transitionParams={transitionParams}
-                from={from}
-                to={to}
-                progress={progress}
-            />
-            */}
-            <LinearCopy>
-                <Persistence persistence={0.8}>
-                    {(redraw: any) => (
-                        <Video onFrame={redraw} autoPlay loop>
-                            <source type="video/mp4" src={video1} />
-                        </Video>
-                    )}
-                </Persistence>
-            </LinearCopy>
-        </Surface>
-        </div>
-    );
-};
+        return (
+            <div>
+                <button onClick={(e) => {this.toggleSlider()}}>Toggle</button>
+                {this.state.visible ?
+                    <Slider/>
+                    :
+                    <div>Hidden slider</div>
+                }
+            </div>
+        )
+    }
+}
+
 
 export default GLTest;
+

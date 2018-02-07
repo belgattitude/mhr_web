@@ -62,7 +62,9 @@ class VideoCanvas extends React.Component<{}, IVideoCanvasState> {
         //const img = this.imageRef();
         const video = this.videoRef();
 
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext('2d', {
+            alpha: false }
+        );
         if (ctx === null) { return; }
 
         scaleCanvas(canvas, ctx, this.state.video.width, this.state.video.height);
@@ -79,6 +81,8 @@ class VideoCanvas extends React.Component<{}, IVideoCanvasState> {
         }
         */
 
+
+
         const drawScaled = (): void => {
 
             if (video.paused || video.ended) {
@@ -87,6 +91,9 @@ class VideoCanvas extends React.Component<{}, IVideoCanvasState> {
 
             const currentTime = video.currentTime;
 
+            //const hdpiRatio = window.devicePixelRatio || 1;
+            //const aspect = video.videoWidth / video.videoHeight;
+
             // Optimization
             /*
             const maxFps = 0.1 / 60;
@@ -94,10 +101,16 @@ class VideoCanvas extends React.Component<{}, IVideoCanvasState> {
                 currentTime > this.currentTime + maxFps ) {
 */
             this.currentTime = currentTime;
-            const aspect = video.videoWidth / video.videoHeight;
-            const hdpiRatio = window.devicePixelRatio || 1;
-            ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
-                    0, 0, canvas.width / hdpiRatio, (canvas.height / aspect));
+            ctx.drawImage(video,
+                    0, 0,
+                    Math.floor(video.videoWidth),
+                    Math.floor(video.videoHeight),
+                    /*
+                    0, 0,
+                    Math.floor(canvas.width / hdpiRatio),
+                    Math.floor(canvas.height / aspect)
+                    */
+            );
 /*
             } else {
                 // console.log('Frame', this.currentTime, currentTime, maxFps);
@@ -156,18 +169,14 @@ class VideoCanvas extends React.Component<{}, IVideoCanvasState> {
             margin: 0,
             padding: 0,
             overflow: 'hidden',
-            width: this.state.video.width,
-            height: this.state.video.height,
             backgroundColor: 'black',
             zIndex: -100,
 
         };
 
         const canvasStyle: CSSProperties = {
-            width: this.state.video.width,
-            height: this.state.video.height,
 
-            opacity: 0.9,
+            //opacity: 0.9,
             //filter: 'grayscale(1)',
             //filter: 'contrast(120%) blur(5px) brightness(110%) grayscale(100%)',
 
@@ -178,10 +187,16 @@ class VideoCanvas extends React.Component<{}, IVideoCanvasState> {
         //const videoSrc = "http://upload.wikimedia.org/wikipedia/commons/7/79/Big_Buck_Bunny_small.ogv";
         const videoSrc = getVideos()[1].src;
 
+        const width = this.state.video.width;
+        const height = this.state.video.height;
+
+
         return(
             <div>
                 <div style={canvasContainerStyle}>
                     <canvas ref="canvas"
+                            width={width}
+                            height={height}
                             style={canvasStyle}>
                         Your browser does not support canvas.
                     </canvas>
