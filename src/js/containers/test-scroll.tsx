@@ -1,10 +1,12 @@
 import React from 'react';
 import {getVideos, IVideo} from '@src/config';
 import './test-scroll.scss';
-import {TweenMax, TweenLite, TimelineLite, Elastic, Back} from 'gsap';
+import {TweenMax,  TimelineMax, Elastic, Back} from 'gsap';
 import throttle from 'lodash/throttle';
 //const SplitText = require('@src/thirdparty/SplitText.min');
 import SplitText from '@src/thirdparty/SplitText.min.js';
+
+//import TimelineMax = gsap.TimelineMax;
 
 interface IProps {
     title: string;
@@ -191,19 +193,32 @@ export class BoxMessageAnimation {
 
     show(target: HTMLElement, callBack?: () => {}) {
         const targetId = target;
-        const tl = new TimelineLite,
+        const tl = new TimelineMax,
             mySplitText = new SplitText(targetId, {type:"words,chars"}),
             chars = mySplitText.words; //an array of all the divs that wrap each character
-            TweenLite.set(targetId, {perspective:400});
-            tl.staggerFrom(chars, 0.6, {
-                opacity:0,
-                scale:'20%',
-                y:80,
-                //x: -1500,
-                rotationX:180,
-                transformOrigin:"50% 50% -50",
-                ease:Back.easeOut
-            }, 0.05, "+=0");
+
+        TweenMax.set(targetId, {perspective:400});
+
+        tl.staggerFrom(chars, 1.6, {
+            opacity:0,
+            scale:'20%',
+            y:80,
+            //x: -1500,
+            rotationX:180,
+            transformOrigin:"0% 50% 0",
+            ease:Back.easeOut
+        }, 0.05, "+=0");
+
+        /*
+        TweenMax.to(targetId, 1.6,
+            {
+                x:0,
+                y:0,
+                scaleY:1,
+                ease:Back.easeInOut
+            }
+        );
+        */
     }
 
     hide(target: HTMLElement, callBack?: () => {}) {
