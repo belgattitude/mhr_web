@@ -2,7 +2,9 @@ const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const PrepackWebpackPlugin = require('prepack-webpack-plugin').default;
 const common = require('./webpack.common.js');
+
 
 const extractSass = new ExtractTextPlugin({
   filename: "style.css",
@@ -77,6 +79,9 @@ module.exports = merge(common, {
       debug: false
     }),
 
+    /*
+    new PrepackWebpackPlugin({}),
+*/
     getMinifyPlugin('uglify_v1'),
 
     extractSass,

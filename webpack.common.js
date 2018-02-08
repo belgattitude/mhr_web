@@ -27,13 +27,32 @@ module.exports = {
         exclude: /node_modules/,
         use: [
           {
-            loader: 'babel-loader'
+            loader: 'awesome-typescript-loader',
+            options: {
+              configFilename: 'tsconfig.json',
+              useBabel: true,
+              silent: true,
+            }
+          }
+        ]
+      }
+
+      /* OR if we like to chain and mix js and tsx
+
+      {
+        test: /\.ts(x?)$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'babel-loader',
+            //options: babelOptions
           },
           {
             loader: 'awesome-typescript-loader'
           }
         ]
       },
+
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
@@ -43,7 +62,8 @@ module.exports = {
             cacheDirectory: true
           }
         }
-      },{
+      }*/
+      ,{
         test: /\.(glsl|vs|fs)$/,
         loader: 'ts-shader-loader'
       },{
@@ -61,15 +81,27 @@ module.exports = {
         //use: 'url-loader?limit=10000',
         options: {
           name: 'fonts/[name].[ext]',
-          /*
-          publicPath: function(url) {
-            return url.replace(/public/, '..')
-          },*/
+          //publicPath: function(url) {
+          //  return url.replace(/public/, '..')
+          //},
         },
-      },{
+      },
+      /*
+      {
+        test: /\.woff$|\.woff2?$|\.ttf$|\.eot$|\.otf$/,
+        use: {
+          loader: 'url-loader',
+          options: {
+            name: 'fonts/[name].[ext]',
+            limit: 10000,
+            mimetype: 'application/octet-stream'
+          }
+        }
+      }*/
+      {
         test: /\.(jpe?g|png|gif|svg)$/i,
         use: [
-          'file-loader?name=images/[name].[ext]',
+          'file-loader?name=images/[name]-[hash].[ext]',
           'image-webpack-loader?bypassOnDebug'
         ]
       }

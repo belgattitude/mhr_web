@@ -1,11 +1,22 @@
 {
   "presets": [
-    ["env", {
-        "targets": {
-          "browsers": ["last 2 versions", "safari >= 8"]
-        },
+    [
+      "env",
+      {
         "modules": false,
-        "useBuiltIns": true
+        "useBuiltIns": false,
+        "targets": {
+          "browsers": [
+            "last 2 chrome versions",
+            "last 2 firefox versions",
+            "last 2 edge versions",
+            "last 2 ios versions",
+            "last 2 safari versions",
+            "last 2 chromeAndroid versions"
+          ]
+          //,"node": "current"
+        },
+        "debug": false
       }
     ],
     "react",
@@ -13,24 +24,16 @@
   ],
   "plugins": [
     "react-hot-loader/babel",
+    "babel-plugin-syntax-dynamic-import",
     "transform-object-rest-spread",
     "transform-es2015-spread"
-  ]/*,
-
+  ],
   "env": {
     "production": {
       "presets": [
-
-      ],
-      "plugins": [
-        "react-hot-loader/babel"
-      ]
-    },
-    "development": {
-      "plugins": [
-        "react-hot-loader/babel"
+        //["minify"]
       ]
     }
-  }*/
+  }
 
 }

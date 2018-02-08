@@ -1,7 +1,23 @@
 import React from 'react';
-import * as THREE from 'three';
-import {Mesh, PerspectiveCamera, Scene, WebGLRenderer} from 'three';
-import {MeshBasicMaterialParameters, ShaderMaterialParameters} from 'three/three-core';
+
+import {
+    BoxGeometry,
+    LinearFilter,
+    Mesh,
+    MeshBasicMaterial,
+    ShaderMaterial,
+    PerspectiveCamera,
+    PlaneGeometry,
+    RGBAFormat,
+    RGBFormat,
+    Scene,
+    Vector2,
+    VideoTexture,
+    WebGLRenderer,
+    MeshBasicMaterialParameters,
+    ShaderMaterialParameters,
+} from "three"; //"three/build/three.module"; // 'three';
+
 
 export interface ITestSceneState {
     width: number;
@@ -58,35 +74,35 @@ export class CubeScene extends React.Component<ITestSceneProps, ITestSceneState>
         const width = this.mount.clientWidth;
         const height = this.mount.clientHeight;
 
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(
+        const scene = new Scene();
+        const camera = new PerspectiveCamera(
             75,
             width / height,
             0.1,
             1000
         );
-        const renderer = new THREE.WebGLRenderer({
+        const renderer = new WebGLRenderer({
             antialias: true,
         });
         renderer.setPixelRatio( window.devicePixelRatio );
         //renderer.setSize( window.innerWidth, window.innerHeight );
 
-        const geometry = new THREE.BoxGeometry(1, 1, 1);
+        const geometry = new BoxGeometry(1, 1, 1);
         //const geometry = new THREE.PlaneGeometry(1, 1);
 
         const videoSrc = this.state.videoSrc as string;
         this.video = this.createVideoElement(videoSrc);
-        const videoTexture = new THREE.VideoTexture( this.video );
-        videoTexture.minFilter = THREE.LinearFilter;
-        videoTexture.format = THREE.RGBFormat;
+        const videoTexture = new VideoTexture( this.video );
+        videoTexture.minFilter = LinearFilter;
+        videoTexture.format = RGBFormat;
 
-        const videoMaterial = new THREE.MeshBasicMaterial({
+        const videoMaterial = new MeshBasicMaterial({
             //color: 0xffffff,
             map: videoTexture,
         });
 
 
-        const video2Material = new THREE.MeshBasicMaterial({
+        const video2Material = new MeshBasicMaterial({
             map: videoTexture,
             //   opacity: 0.1
 
@@ -95,7 +111,7 @@ export class CubeScene extends React.Component<ITestSceneProps, ITestSceneState>
 
 
 
-        const emptyMaterial = new THREE.MeshBasicMaterial({
+        const emptyMaterial = new MeshBasicMaterial({
             color: 0xffffff,
         });
 
@@ -109,7 +125,7 @@ export class CubeScene extends React.Component<ITestSceneProps, ITestSceneState>
 
         ];
 
-        const cube = new THREE.Mesh(geometry, materials);
+        const cube = new Mesh(geometry, materials);
 
         camera.position.z = 2;
         scene.add(cube);
@@ -212,33 +228,33 @@ export class PlaneScene extends React.Component<ITestSceneProps, ITestSceneState
         const width = this.mount.clientWidth;
         const height = this.mount.clientHeight;
 
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(
+        const scene = new Scene();
+        const camera = new PerspectiveCamera(
             75,
             width / height,
             0.1,
             1000
         );
-        const renderer = new THREE.WebGLRenderer({
+        const renderer = new WebGLRenderer({
             antialias: true,
         });
         renderer.setPixelRatio( window.devicePixelRatio );
         renderer.setSize( window.innerWidth, window.innerHeight );
 
-        const geometry = new THREE.PlaneGeometry(2, 2);
+        const geometry = new PlaneGeometry(2, 2);
 
         const videoSrc = this.state.videoSrc as string;
         this.video = this.createVideoElement(videoSrc);
-        const videoTexture = new THREE.VideoTexture( this.video );
-        videoTexture.minFilter = THREE.LinearFilter;
-        videoTexture.magFilter = THREE.LinearFilter;
-        videoTexture.format = THREE.RGBAFormat;
+        const videoTexture = new VideoTexture( this.video );
+        videoTexture.minFilter = LinearFilter;
+        videoTexture.magFilter = LinearFilter;
+        videoTexture.format = RGBAFormat;
 
-        const shaderMaterial = new THREE.ShaderMaterial( {
+        const shaderMaterial = new ShaderMaterial( {
 
             uniforms: {
                 time: { value: 1.0 },
-                resolution: { value: new THREE.Vector2() },
+                resolution: { value: new Vector2() },
                 video: videoTexture,
             },
 
@@ -276,7 +292,7 @@ export class PlaneScene extends React.Component<ITestSceneProps, ITestSceneState
 
         //console.log('shaderMaterial', shaderMaterial);
 
-        const videoMaterial = new THREE.MeshBasicMaterial({
+        const videoMaterial = new MeshBasicMaterial({
             map: videoTexture,
          //   opacity: 0.1
 
@@ -286,19 +302,20 @@ export class PlaneScene extends React.Component<ITestSceneProps, ITestSceneState
             videoMaterial,
         ];
 
-        const videoMesh = new THREE.Mesh(geometry, materials);
+        const videoMesh = new Mesh(geometry, materials);
         scene.add(videoMesh);
 
         camera.position.z = 2;
         //scene.add(shaderMaterial);
 
         shaderMaterial.transparent = true;
+        /*
         const blendings = [ 'NoBlending', 'NormalBlending', 'AdditiveBlending', 'SubtractiveBlending', 'MultiplyBlending' ];
 
         shaderMaterial.blending = THREE[blendings[3]];
-
-        const planeGeometry = new THREE.PlaneGeometry( 2, 2 );
-        const shaderMesh = new THREE.Mesh(planeGeometry, shaderMaterial );
+*/
+        const planeGeometry = new PlaneGeometry( 2, 2 );
+        const shaderMesh = new Mesh(planeGeometry, shaderMaterial );
 
         scene.add(shaderMesh);
 
