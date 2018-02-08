@@ -6,7 +6,7 @@ const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 
 module.exports = {
   entry: [
-    'babel-polyfill',
+   // 'babel-polyfill',
     './src/js/index.tsx'
   ],
   resolve: {

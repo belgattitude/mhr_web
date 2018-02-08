@@ -20,7 +20,7 @@ getMinifyPlugin = function(version) {
         sourceMap: true,
         uglifyOptions: {
           comments: false,
-          ecma: 5,
+          //ecma: 5,
           compress: true,
           warnings: true
         }
@@ -45,7 +45,7 @@ getMinifyPlugin = function(version) {
 
 
 module.exports = merge(common, {
-  devtool: 'source-map',
+  devtool: 'source-map', // or false if you don't want source map
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js',
@@ -86,9 +86,7 @@ module.exports = merge(common, {
 
     extractSass,
 
-  ],
-
-  devtool: false
+  ]
 });
 
 

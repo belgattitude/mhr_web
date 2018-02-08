@@ -16,7 +16,7 @@
           ]
           //,"node": "current"
         },
-        "debug": false
+        "debug": true
       }
     ],
     "react",
