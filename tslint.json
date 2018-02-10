@@ -2,7 +2,8 @@
   "extends": ["tslint:recommended", "tslint-react"],
   "linterOptions": {
     "exclude": [
-      "src/electron/*.js"
+      "src/electron/*.js",
+      "**/*.min.js"
     ]
   },
   "rules": {

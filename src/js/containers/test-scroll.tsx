@@ -105,8 +105,8 @@ class TestScroll extends React.Component<IProps, IState> {
         const w = wrap.offsetWidth;
         const h = wrap.offsetHeight;
 
-        let center = w / 2;
-        let middle = h / 2;
+        const center = w / 2;
+        const middle = h / 2;
 
         //let x = e.nativeEvent.offsetX; // (e.clientX - wrap.offsetLeft)
         //console.log('equals', e.clientX - wrap.offsetLeft, x);
@@ -114,8 +114,8 @@ class TestScroll extends React.Component<IProps, IState> {
         let x = e.clientX - wrap.offsetLeft;
         let y = e.clientY - wrap.offsetTop;
 
-        let gradientX = 1 - (x / w);
-        let gradientY = 1 - (y / h);
+        const gradientX = 1 - (x / w);
+        const gradientY = 1 - (y / h);
 
         if (x < center) {
             x = 1 - (x / center);

@@ -122,7 +122,7 @@ class Slider extends React.Component<{}, {}> {
                         bottom: 0,
                         right: 0,
                     }}
-                    ref={(ref: HTMLCanvasElement) => {this.canvas = ref;}} />
+                    ref={(ref: HTMLCanvasElement) => {this.canvas = ref; }} />
             </div>
         );
     }
@@ -151,7 +151,7 @@ class GLTest extends React.Component<{}, IGLTestState> {
 
         return (
             <div>
-                <button onClick={(e) => {this.toggleSlider();}}>Toggle</button>
+                <button onClick={(e) => {this.toggleSlider(); }}>Toggle</button>
                 {this.state.visible ?
                     <Slider/>
                     :
