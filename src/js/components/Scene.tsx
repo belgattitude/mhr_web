@@ -16,8 +16,7 @@ import {
     WebGLRenderer,
     MeshBasicMaterialParameters,
     ShaderMaterialParameters,
-} from "three"; //"three/build/three.module"; // 'three';
-
+} from 'three'; //"three/build/three.module"; // 'three';
 
 export interface ITestSceneState {
     width: number;
@@ -101,15 +100,11 @@ export class CubeScene extends React.Component<ITestSceneProps, ITestSceneState>
             map: videoTexture,
         });
 
-
         const video2Material = new MeshBasicMaterial({
             map: videoTexture,
             //   opacity: 0.1
 
         } as MeshBasicMaterialParameters);
-
-
-
 
         const emptyMaterial = new MeshBasicMaterial({
             color: 0xffffff,

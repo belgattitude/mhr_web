@@ -81,8 +81,6 @@ class VideoCanvas extends React.Component<{}, IVideoCanvasState> {
         }
         */
 
-
-
         const drawScaled = (): void => {
 
             if (video.paused || video.ended) {
@@ -104,7 +102,7 @@ class VideoCanvas extends React.Component<{}, IVideoCanvasState> {
             ctx.drawImage(video,
                     0, 0,
                     Math.floor(video.videoWidth),
-                    Math.floor(video.videoHeight),
+                    Math.floor(video.videoHeight)
                     /*
                     0, 0,
                     Math.floor(canvas.width / hdpiRatio),
@@ -189,7 +187,6 @@ class VideoCanvas extends React.Component<{}, IVideoCanvasState> {
 
         const width = this.state.video.width;
         const height = this.state.video.height;
-
 
         return(
             <div>

@@ -19,7 +19,6 @@ interface IState {
 
 const messages = ['Step One', 'Step two', '33333333333333333333333333"', '44444444444444444444444444444444444'];
 
-
 class TestScroll extends React.Component<IProps, IState> {
 
     state: IState = {
@@ -95,22 +94,19 @@ class TestScroll extends React.Component<IProps, IState> {
     componentDidMount() {
 
         this.handleMouseMove = throttle(this.handleMouseMove.bind(this), 50, {
-            leading: true
-        })
+            leading: true,
+        });
 
     }
 
-
-
-
     handleMouseMove(e: React.MouseEvent<HTMLDivElement>): void {
         const wrap = e.currentTarget as HTMLDivElement;
-        if (wrap === null) return;
+        if (wrap === null) { return; }
         const w = wrap.offsetWidth;
         const h = wrap.offsetHeight;
 
-        var center = w / 2;
-        var middle = h / 2;
+        let center = w / 2;
+        let middle = h / 2;
 
         //let x = e.nativeEvent.offsetX; // (e.clientX - wrap.offsetLeft)
         //console.log('equals', e.clientX - wrap.offsetLeft, x);
@@ -118,33 +114,33 @@ class TestScroll extends React.Component<IProps, IState> {
         let x = e.clientX - wrap.offsetLeft;
         let y = e.clientY - wrap.offsetTop;
 
-        var gradientX = 1 - (x / w);
-        var gradientY = 1 - (y / h);
+        let gradientX = 1 - (x / w);
+        let gradientY = 1 - (y / h);
 
-        if(x < center) {
+        if (x < center) {
             x = 1 - (x / center);
             x = -x;
-        }else {
-            x = (x - center)/center;
+        } else {
+            x = (x - center) / center;
         }
 
-        if(y < middle) {
+        if (y < middle) {
             y = 1 - (y / middle);
             y = -y;
-        }else {
-            y = (y - middle)/middle;
+        } else {
+            y = (y - middle) / middle;
         }
 
         const root = wrap.parentElement as HTMLDivElement;
 
-        root.style.setProperty("--mouse-x", (x).toString());
-        root.style.setProperty("--mouse-y", (y).toString());
+        root.style.setProperty('--mouse-x', (x).toString());
+        root.style.setProperty('--mouse-y', (y).toString());
 
-        root.style.setProperty("--mouse-x-px", (x).toString() + 'px');
-        root.style.setProperty("--mouse-y-px", (y).toString() + 'px');
+        root.style.setProperty('--mouse-x-px', (x).toString() + 'px');
+        root.style.setProperty('--mouse-y-px', (y).toString() + 'px');
 
-        root.style.setProperty("--gradient-x", gradientX.toString());
-        root.style.setProperty("--gradient-y", gradientY.toString());
+        root.style.setProperty('--gradient-x', gradientX.toString());
+        root.style.setProperty('--gradient-y', gradientY.toString());
     }
 
     render() {
@@ -178,7 +174,6 @@ class TestScroll extends React.Component<IProps, IState> {
     }
 }
 
-
 interface IBoxMessageAnimation {
     duration: number;
 }
@@ -194,20 +189,20 @@ export class BoxMessageAnimation {
     show(target: HTMLElement, callBack?: () => {}) {
         const targetId = target;
         const tl = new TimelineMax,
-            mySplitText = new SplitText(targetId, {type:"words,chars"}),
+            mySplitText = new SplitText(targetId, {type: 'words,chars'}),
             chars = mySplitText.words; //an array of all the divs that wrap each character
 
-        TweenMax.set(targetId, {perspective:400});
+        TweenMax.set(targetId, {perspective: 400});
 
         tl.staggerFrom(chars, 1.6, {
-            opacity:0,
-            scale:'20%',
-            y:80,
+            opacity: 0,
+            scale: '20%',
+            y: 80,
             //x: -1500,
-            rotationX:180,
-            transformOrigin:"0% 50% 0",
-            ease:Back.easeOut
-        }, 0.05, "+=0");
+            rotationX: 180,
+            transformOrigin: '0% 50% 0',
+            ease: Back.easeOut,
+        }, 0.05, '+=0');
 
         /*
         TweenMax.to(targetId, 1.6,
@@ -226,23 +221,22 @@ export class BoxMessageAnimation {
             opacity: 0,
             height: 0,
             onComplete() {
-                if (callBack !== undefined) { callBack() };
+                if (callBack !== undefined) { callBack(); }
             },
-            ease: Elastic.easeOut.config(0.25, 1)
+            ease: Elastic.easeOut.config(0.25, 1),
         });
     }
 
 }
 
-
 interface IBoxMessage {
-    text: string
+    text: string;
 }
 export class BoxMessage extends React.Component<IBoxMessage, {}> {
 
     animation: BoxMessageAnimation;
 
-    getDomRoot = () => { return this.refs.domRoot as HTMLDivElement };
+    getDomRoot = () => { return this.refs.domRoot as HTMLDivElement; };
 
     constructor(props) {
         super(props);
@@ -282,8 +276,5 @@ export class BoxMessage extends React.Component<IBoxMessage, {}> {
     }
 
 }
-
-
-
 
 export default TestScroll;

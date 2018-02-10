@@ -11,9 +11,9 @@ import GLTest from '@src/containers/gl-test';
 import Home from '@src/containers/home';
 import VideoCanvas from '@src/containers/video-canvas';
 import TestScroll from '@src/containers/test-scroll';
-import Transition from "@src/containers/transition";
+import Transition from '@src/containers/transition';
 
-class NotFoundComponent extends React.Component<{},{}> {
+class NotFoundComponent extends React.Component<{}, {}> {
     public render() {
         return(
             <h1 style={{color: 'red'}}>Page not found!</h1>

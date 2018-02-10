@@ -1,9 +1,9 @@
 import React from 'react';
-import { LinearCopy } from "gl-react";
-import { Surface } from "gl-react-dom";
-import GLTransition from "react-gl-transition";
-import GLTransitions from "gl-transitions";
-import {getVideos} from "@src/config";
+import { LinearCopy } from 'gl-react';
+import { Surface } from 'gl-react-dom';
+import GLTransition from 'react-gl-transition';
+import GLTransitions from 'gl-transitions';
+import {getVideos} from '@src/config';
 
 interface ITranstionProps {
 
@@ -28,20 +28,19 @@ class Transition extends React.Component<ITranstionProps, ITransitionState> {
     constructor(props: ITranstionProps) {
         super(props);
 
-        this.images = "wxqlQkh,G2Whuq3,0bUSEBX"
-            .split(",")
+        this.images = 'wxqlQkh,G2Whuq3,0bUSEBX'
+            .split(',')
             .map(id => `https://i.imgur.com/${id}.jpg`);
 
         getVideos().map(({src})  => {
-            let video = document.createElement('video');
+            const video = document.createElement('video');
             video.src = src;
             video.autoplay = false;
             video.muted = true;
             video.loop = true;
-            video.crossOrigin = "anonymous";
+            video.crossOrigin = 'anonymous';
             this.images.push(video);
-        })
-
+        });
 
     }
 
@@ -50,22 +49,21 @@ class Transition extends React.Component<ITranstionProps, ITransitionState> {
             this.setState((prevState, props) => {
                 return {
                     ...prevState,
-                    index: (prevState.index + 1) % this.images.length
-                }
-            })
+                    index: (prevState.index + 1) % this.images.length,
+                };
+            });
         }, 4000);
 
         setInterval(() => {
             this.setState((prevState, props) => {
                 return {
                     ...prevState,
-                    progress: (prevState.progress >= 0.9) ? 0 : (prevState.progress + 0.001)
-                }
-            })
+                    progress: (prevState.progress >= 0.9) ? 0 : (prevState.progress + 0.001),
+                };
+            });
         }, 10);
 
     }
-
 
     render() {
 
@@ -78,8 +76,8 @@ class Transition extends React.Component<ITranstionProps, ITransitionState> {
         //const transition = GLTransitions[index % GLTransitions.length];
         const transition = GLTransitions[8];
 
-        const width=600;
-        const height=400;
+        const width = 600;
+        const height = 400;
 
         return(
             <div>
@@ -121,4 +119,3 @@ const Slideshow = ({ slides, delay, duration, time }) => {
 });
 */
 export default Transition;
-
