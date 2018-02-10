@@ -44,7 +44,7 @@ export const AppBarComponent: React.SFC<AppMenuProps> = (props) => {
         <div>
             {menuItems.map(({path, label, active}) => { return (
                     <LinkItem key={path} path={path} label={label} active={active} />
-                );}
+                ); }
             )}
         </div>
     );

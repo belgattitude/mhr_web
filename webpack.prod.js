@@ -10,39 +10,6 @@ const extractSass = new ExtractTextPlugin({
   filename: "style.css",
 });
 
-getMinifyPlugin = function(version) {
-  var minPlugin = '';
-  switch (version) {
-    case 'uglify_v1':
-      const UglifyJsPlugin1 = require('uglifyjs-webpack-plugin');
-      minPlugin = new UglifyJsPlugin1({
-        parallel: true,
-        sourceMap: true,
-        uglifyOptions: {
-          comments: false,
-          //ecma: 5,
-          compress: true,
-          warnings: true
-        }
-      });
-      break;
-
-    default:
-      // Bundled webpack uglify
-      minPlugin = new webpack.optimize.UglifyJsPlugin({
-        parallel: true,
-        sourceMap: true,
-        compress: {
-          warnings: true
-        },
-        output: {
-          comments: false
-        }
-      });
-  }
-  return minPlugin;
-};
-
 
 module.exports = merge(common, {
   devtool: 'source-map', // or false if you don't want source map
@@ -82,7 +49,8 @@ module.exports = merge(common, {
     /*
     new PrepackWebpackPlugin({}),
 */
-    getMinifyPlugin('uglify_v1'),
+    getMinifyPlugin('uglify_v3'),
+    //getMinifyPlugin('minify'),
 
     extractSass,
 

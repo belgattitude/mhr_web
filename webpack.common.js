@@ -127,3 +127,47 @@ module.exports = {
     })
   ]
 };
+
+getMinifyPlugin = function(version) {
+  var minPlugin = '';
+  switch (version) {
+    case 'uglify_v3':
+      const UglifyJsPlugin3 = require('uglifyjs-webpack-plugin');
+      minPlugin = new UglifyJsPlugin3({
+        parallel: true,
+        sourceMap: true,
+        uglifyOptions: {
+          comments: false,
+          //ecma: 5,
+          compress: true,
+          warnings: true
+        }
+      });
+      break;
+
+    case 'minify':
+      const MinifyPlugin = require("babel-minify-webpack-plugin");
+      minPlugin = new MinifyPlugin({
+        removeConsole: false,
+        deadcode: { optimizeRawSize: true }
+      }, {
+        comments: false,
+        sourceMap: false
+      });
+      break;
+
+    default:
+      // Bundled webpack uglify
+      minPlugin = new webpack.optimize.UglifyJsPlugin({
+        parallel: true,
+        sourceMap: true,
+        compress: {
+          warnings: true
+        },
+        output: {
+          comments: false
+        }
+      });
+  }
+  return minPlugin;
+};

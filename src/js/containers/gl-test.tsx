@@ -1,11 +1,7 @@
 import React from 'react';
-const GLTransitions = require("gl-transitions");
+const GLTransitions = require('gl-transitions');
 import createREGL from 'regl';
-const createREGLTransition = require("regl-transition");
-
-
-
-
+const createREGLTransition = require('regl-transition');
 
 export const loadImage = (src) => {
 
@@ -31,7 +27,7 @@ export const loadImage = (src) => {
         }
     });
 
-}
+};
 
 export const loadVideos = src =>
     new Promise((resolve, reject) => {
@@ -43,7 +39,6 @@ export const loadVideos = src =>
         video.onabort = reject;
         video.src = src;
     });
-
 
 class Slider extends React.Component<{}, {}> {
 
@@ -61,8 +56,8 @@ class Slider extends React.Component<{}, {}> {
         console.log('didmount');
         const delay = 1;
         const duration = 1.5;
-        const imgSrcs = "wxqlQkh,G2Whuq3,0bUSEBX"
-            .split(",")
+        const imgSrcs = 'wxqlQkh,G2Whuq3,0bUSEBX'
+            .split(',')
             .map(id => `https://i.imgur.com/${id}.jpg`);
 
         //imgSrcs.push('http://localhost/paola/deshake.m4v');
@@ -73,11 +68,10 @@ class Slider extends React.Component<{}, {}> {
             //preserveDrawingBuffer: true
         });
 
-        if (context == null) return;
+        if (context == null) { return; }
         this.webglContext = context;
 
         //document.body.appendChild(canvas)
-
 
         this.regl = createREGL(this.webglContext);
         const transitions = GLTransitions.map(t => createREGLTransition(this.regl, t));
@@ -99,7 +93,6 @@ class Slider extends React.Component<{}, {}> {
             console.log('LOAD FAILED', reason);
         });
     }
-
 
     componentWillUnmount() {
         console.log('will unmount');
@@ -127,23 +120,22 @@ class Slider extends React.Component<{}, {}> {
                         top: 200,
                         left: 0,
                         bottom: 0,
-                        right: 0
+                        right: 0,
                     }}
-                    ref={(ref: HTMLCanvasElement) => {this.canvas = ref}} />
+                    ref={(ref: HTMLCanvasElement) => {this.canvas = ref;}} />
             </div>
-        )
+        );
     }
 }
 
-
 interface IGLTestState {
-    visible: boolean
+    visible: boolean;
 }
 
 class GLTest extends React.Component<{}, IGLTestState> {
 
     state: IGLTestState = {
-        visible: true
+        visible: true,
     };
 
     toggleSlider() {
@@ -151,25 +143,23 @@ class GLTest extends React.Component<{}, IGLTestState> {
             return {
                 ...prevState,
                 visible: !prevState.visible,
-            }
-        })
+            };
+        });
     }
 
     render() {
 
         return (
             <div>
-                <button onClick={(e) => {this.toggleSlider()}}>Toggle</button>
+                <button onClick={(e) => {this.toggleSlider();}}>Toggle</button>
                 {this.state.visible ?
                     <Slider/>
                     :
                     <div>Hidden slider</div>
                 }
             </div>
-        )
+        );
     }
 }
 
-
 export default GLTest;
-
