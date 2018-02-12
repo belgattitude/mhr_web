@@ -4,7 +4,8 @@
     "paths": {                // define absolute path mappings
       "redux": ["src/typings/redux.d.ts"],
       "@src/*": ["src/js/*"], // will enable -> import { ... } from '@src/components'
-      "@public/*": ["public/*"]
+      "@public/*": ["public/*"],
+      "@assets/*": ["src/assets/*"]
       // in webpack you need to add -> resolve: { alias: { '@src': PATH_TO_SRC } }
     },
   //  "outDir": "dist/",                    // target for compiled files
