@@ -32,6 +32,7 @@ module.exports = {
             options: {
               configFilename: 'tsconfig.json',
               useBabel: true,
+              useCache: true,
               silent: true,
             }
           }

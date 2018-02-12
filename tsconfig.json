@@ -6,7 +6,6 @@
       "@src/*": ["src/js/*"], // will enable -> import { ... } from '@src/components'
       "@public/*": ["public/*"],
       "@assets/*": ["src/assets/*"]
-      // in webpack you need to add -> resolve: { alias: { '@src': PATH_TO_SRC } }
     },
   //  "outDir": "dist/",                    // target for compiled files
     "allowSyntheticDefaultImports": true,   // no errors on commonjs default import

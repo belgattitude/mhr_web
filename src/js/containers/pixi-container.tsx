@@ -1,9 +1,10 @@
 import React from 'react';
-import { Stage, Sprite } from "react-pixi-fiber";
 import * as PIXI from "pixi.js";
-import bunny from "@assets/images/bunny.png";
+//import bunnyImage from "@assets/images/bunny.png";
 
 interface IProps {
+    width: 800;
+    height: 600;
 }
 interface IState {
     scale: number;
@@ -16,9 +17,24 @@ class PixiContainer extends React.Component<IProps, IState> {
         scale: 1
     };
 
+    props: IProps;
+
+    pixiDom: HTMLDivElement;
+    pixiApp: PIXI.Application;
+
 
     constructor(props: IProps) {
         super(props);
+    }
+
+    public createVideoElement(): HTMLVideoElement {
+
+        const videoElement = document.createElement('video') as HTMLVideoElement;
+        videoElement.crossOrigin = "anonymous";
+        videoElement.autoplay = true;
+        videoElement.muted = true;
+        videoElement.src = 'http://localhost/paola/deshake.m4v';
+        return videoElement;
     }
 
 
@@ -26,38 +42,94 @@ class PixiContainer extends React.Component<IProps, IState> {
         this.setState(state => ({ ...state, scale: state.scale * 1.25 }));
     };
 
+    initPixiApp(width: number, height: number): void {
+
+        const app = new PIXI.Application(width, height, {
+            antialias: true,
+            transparent: true
+        });
+
+        const videoTexture = PIXI.Texture.fromVideo(this.createVideoElement());
+
+        const videoSprite = new PIXI.Sprite(videoTexture);
+
+        // Stetch the fullscreen
+        videoSprite.width = app.screen.width;
+        videoSprite.height = app.screen.height;
+
+        videoSprite.interactive=true;
+        videoSprite.on('pointerdown', () => {
+            videoSprite.scale.x *= 1.05;
+            videoSprite.scale.y *= 1.05;
+        })
+
+        app.stage.addChild(videoSprite);
+
+
+        // Adding shader
+
+
+        const fragmentShader = `
+            precision mediump float;
+    
+            varying vec2 vTextureCoord;
+            varying vec4 vColor;
+    
+            uniform sampler2D uSampler;
+            uniform float customUniform;
+            
+            void main(void)
+            {
+                vec2 uvs = vTextureCoord.xy;
+    
+                vec4 fg = texture2D(uSampler, vTextureCoord);
+    
+    
+                fg.r = uvs.y + sin(customUniform);
+    
+                //fg.r = clamp(fg.r,0.0,0.9);
+    
+                gl_FragColor = fg;
+    
+            }
+        `;
+        const vertexShader = undefined;
+
+        const filter = new PIXI.Filter(vertexShader, fragmentShader);
+        videoSprite.filters = [ filter ];
+
+        app.ticker.add((delta) => {
+            (filter.uniforms as any).customUniform += 0.04 * delta;
+        });
+
+
+        this.pixiApp = app;
+
+    }
+
+    public componentDidMount() {
+
+        this.initPixiApp(this.props.width, this.props.height);
+        this.pixiDom.appendChild(this.pixiApp.view);
+    }
+
+    shouldComponentUpdate(nextProps: IProps, nextState: IState): boolean {
+        return nextState.scale != this.state.scale;
+    }
+
     render() {
+        const style={
+            zIndex: -2,
+        }
+
         return (
-            <Stage width={800} height={600} backgroundColor={0x1099bb}>
-                <Bunny
-                    // Shows hand cursor
-                    buttonMode
-                    // Opt-in to interactivity
-                    interactive
-                    // Pointers normalize touch and mouse
-                    pointerdown={this.handleClick}
-                    scale={new PIXI.Point(this.state.scale, this.state.scale)}
-                    x={400}
-                    y={300}
-                />
-            </Stage>
+            <div ref={(ref: HTMLDivElement) => {this.pixiDom = ref}}
+                 style={style}
+            >
+            </div>
         );
     }
 }
 
 export default PixiContainer;
 
-
-const centerAnchor = new PIXI.Point(0.5, 0.5);
-
-function BunnyComponent(props) {
-    return (
-        <Sprite
-            anchor={centerAnchor}
-            texture={PIXI.Texture.fromImage(bunny)}
-            {...props}
-        />
-    );
-}
-
-export const Bunny = BunnyComponent;
