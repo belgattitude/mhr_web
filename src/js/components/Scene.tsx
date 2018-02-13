@@ -86,9 +86,6 @@ export class CubeScene extends React.Component<ITestSceneProps, ITestSceneState>
         renderer.setPixelRatio( window.devicePixelRatio );
         //renderer.setSize( window.innerWidth, window.innerHeight );
 
-        const geometry = new BoxGeometry(1, 1, 1);
-        //const geometry = new THREE.PlaneGeometry(1, 1);
-
         const videoSrc = this.state.videoSrc as string;
         this.video = this.createVideoElement(videoSrc);
         const videoTexture = new VideoTexture( this.video );
@@ -117,13 +114,14 @@ export class CubeScene extends React.Component<ITestSceneProps, ITestSceneState>
             emptyMaterial,
             emptyMaterial,
             video2Material,
-
         ];
 
-        const cube = new Mesh(geometry, materials);
+        const cubeGeometry = new BoxGeometry(1, 1, 1);
+
+        const cubeMesh = new Mesh(cubeGeometry, materials);
 
         camera.position.z = 2;
-        scene.add(cube);
+        scene.add(cubeMesh);
         renderer.setClearColor('#000000');
         renderer.setSize(width, height);
 
@@ -131,7 +129,7 @@ export class CubeScene extends React.Component<ITestSceneProps, ITestSceneState>
         this.camera = camera;
         this.renderer = renderer;
         //this.material = material;
-        this.cube = cube;
+        this.cube = cubeMesh;
 
         this.mount.appendChild(this.renderer.domElement);
         this.start();

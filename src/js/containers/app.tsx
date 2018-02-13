@@ -14,7 +14,6 @@ import TestScroll from '@src/containers/test-scroll';
 import Transition from '@src/containers/transition';
 import PixiContainer from '@src/containers/pixi-container';
 
-
 class NotFoundComponent extends React.Component<{}, {}> {
     public render() {
         return(
