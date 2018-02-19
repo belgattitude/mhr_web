@@ -2,16 +2,26 @@ import React from 'react';
 import SplitText from '@src/thirdparty/SplitText.min.js';
 
 import './menu-layout.scss';
-import {TimelineLite, TweenLite, Back, Elastic} from 'gsap';
+import {TimelineLite, TweenLite, Back, Elastic, Power2} from 'gsap';
+import {Transition, TransitionGroup} from "react-transition-group";
+
 
 interface IProps {
     title: string;
 }
 
 interface IState {
+    showSlide: boolean;
+    count: number;
 }
 
 class MenuLayout extends React.Component<IProps, IState> {
+
+
+    state = {
+        showSlide: false,
+        count: 1
+    };
 
 
     constructor(props: IProps) {
@@ -20,6 +30,14 @@ class MenuLayout extends React.Component<IProps, IState> {
 
 
     componentDidMount() {
+
+    }
+
+    toggleSlide(e: any) {
+
+        this.setState((prevState, props) => {
+            return {...prevState, showSlide: !prevState.showSlide};
+        });
 
     }
 
@@ -34,19 +52,43 @@ class MenuLayout extends React.Component<IProps, IState> {
                             Move on
         `;
 
-
-
         //const video = 'http://localhost/paola/trailer_hd.mp4';
+        const showSlide = this.state.showSlide;
+
+        const elements = [
+            <FadeEl key="cool" content="Hello" target="1" remove={() => { console.log('remove')}} />
+        ];
+
+        if (this.state.count % 2 == 0) {
+            elements.push(<Slide text={text} key={`slide-${this.state.count}`} />);
+        }
+
+
         return (
             <div className="main-wrapper">
                 <div className="layers">
                     <img className="layer-background" src={imageUrl}/>
                     <div className="layer">
-                        <div className="title">
-                            <TitleBox text={text}/>
-                        </div>
-                        <div className="timeline">
 
+                        <div className="title">
+                            {(showSlide) ?
+                                <TransitionGroup>
+                                    {elements.map(elem => (elem))}
+                                </TransitionGroup>
+                                :
+                                <TitleBox text={text}/>
+
+                            }
+                        </div>
+
+
+                        <div className="timeline">
+                            <button onClick={(e:any) => {this.toggleSlide(e);}}>Cool</button>
+                            <button onClick={(e:any) => {
+                                this.setState((prevState, props) => (
+                                    {...prevState, count: prevState.count + 1}
+                                ) )
+                            }}>Inc {this.state.count}</button>
                         </div>
                     </div>
 
@@ -133,6 +175,195 @@ class TitleBox extends React.Component<{ text: string }, {}> {
         )
     }
 
+}
+
+
+/*
+const defaultStyle = {
+    opacity: 1,
+    transform: "translate(300px, 0)"
+};*/
+
+
+class Slide extends React.Component<{ text: string, in?: boolean }, {}> {
+
+    protected domRef: HTMLDivElement;
+    protected tl: TimelineLite;
+    protected splitText: {
+        chars: string[],
+        words: string[],
+    };
+
+    componentDidMount() {
+        this.tl = new TimelineLite({paused: true});
+        TweenLite.set(this.domRef, {
+            css: {
+                perspective: 500,
+                perspectiveOrigin: "50% 50%",
+                transformStyle: "preserve-3d"
+            }
+        });
+        this.splitText = new SplitText(this.domRef, {type: "chars"});
+        const numChars = this.splitText.chars.length;
+
+        const getRandomInt = (min, max) => {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+        for (let i = 0; i < numChars; i++) {
+            (this.tl as any).from(this.splitText.chars[i], 0.8,
+                {
+                    css: {
+                        y: getRandomInt(-75, 75),
+                        x: getRandomInt(-150, 150),
+                        rotation: getRandomInt(0, 720),
+                        autoAlpha: 0
+                    }, ease: Back.easeOut
+                }, i * 0.02
+                , "dropIn"
+            );
+        }
+
+        this.tl.staggerTo(this.splitText.chars, 4, {
+            css: {
+                transformOrigin: "50% 50% -30px",
+                rotationY: -360,
+                rotationX: 360,
+                rotation: 360
+            }, ease: Elastic.easeInOut
+        }, 0.02, "+=1");
+
+
+        TweenLite.set(this.domRef, {
+            transformPerspective: 600,
+            perspective: 300,
+            transformStyle: "preserve-3d",
+            autoAlpha: 1
+        });
+
+    }
+
+    componentWillUnmount() {
+        console.log('component will unmount');
+    }
+
+    endListener = (node: HTMLElement, done: () => void) => {
+        console.log('endListener', this.props.in);
+        if (this.props.in) {
+            this.tl.play(0);
+            /*
+            TweenLite.to(node, 1, {
+                autoAlpha: 1,
+                x: 0,
+                ease: Back.easeOut,
+                onComplete: done
+            });
+            */
+        } else {
+            this.tl.reverse();
+            //TweenLite.to(node, 1, { autoAlpha: 0, x: -100, onComplete: done });
+        }
+    }
+
+    render() {
+        const lines = this.props.text.split("\n");
+        console.log('this.props.in', this.props.in);
+        return (
+          <Transition
+            in={this.props.in}
+            timeout={5000}
+            mountOnEnter={true}
+            unmountOnExit={true}
+            addEndListener={this.endListener}
+          >
+              {state => {
+                  return (
+                      <div ref={(el: HTMLDivElement) => {
+                          this.domRef = el
+                      }}>
+                          {lines.map((line, idx) => (
+                              <React.Fragment key={idx}>
+                                  <p>{line.trim()}</p>
+                              </React.Fragment>
+
+                          ))}
+                      </div>
+                  )
+              }
+              }
+          </Transition>
+        )
+    }
+
+}
+
+
+export class FadeEl extends React.Component<{in?: boolean, content: any, target: any, remove: any}, {}> {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        //const { content, target, remove } = this.props;
+        const duration=2000;
+        return (
+            <Transition
+                in={this.props.in}
+                timeout={duration}
+                mountOnEnter={true}
+                unmountOnExit={true}
+                addEndListener={(n, done) => {
+                    TweenLite.to(n, 1, { opacity: 1, x: 0 });
+                    if (this.props.in) {
+                        TweenLite.to(n, 1, {
+                            opacity: 1,
+                            x: +100,
+                            ease: Power2.easeOut,
+                            onComplete: done });
+                    } else {
+                        TweenLite.to(n, 1, {
+                            opacity: 0,
+                            x: -100,
+                            ease: Power2.easeOut,
+                            onComplete: done
+                        });
+                    }
+                }}
+            >
+                <FadeComponent {...this.props} />
+            </Transition>
+        );
+    }
+}
+
+
+class FadeComponent extends React.Component<any,any> {
+    componentDidMount() {
+        TweenLite.to(this.refs.targetEl, 0.5, {
+            opacity: 1,
+            x: 0,
+            delay: 0.2 * this.props.target
+        });
+    }
+    render() {
+        const { content, target, remove } = this.props;
+        return (
+            <div
+                className="card my-element"
+                ref="targetEl"
+                style={{ marginTop: "10px" }}
+            >
+                <div className="card-block">
+                    {content}
+                    <button
+                        className="btn btn-danger float-right"
+                        onClick={() => remove(target)}
+                    >
+                        Delete
+                    </button>
+                </div>
+            </div>
+        );
+    }
 }
 
 export default MenuLayout;
