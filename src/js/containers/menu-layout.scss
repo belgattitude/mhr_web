@@ -30,6 +30,8 @@ $font-title: 'Cabin Sketch', 'Quicksand';
           font-family: $font-title;
           font-size: 2em;
           z-index: 1;
+          -webkit-font-smoothing: antialiased;
+          -moz-font-smoothing:antialiased;
           p {
             margin: 0;
           }

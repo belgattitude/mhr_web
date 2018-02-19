@@ -204,6 +204,8 @@ export class BoxMessageAnimation {
             ease: Back.easeOut,
         }, 0.05, '+=0');
 
+
+
         /*
         TweenMax.to(targetId, 1.6,
             {
