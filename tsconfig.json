@@ -5,6 +5,7 @@
       "redux": ["src/typings/redux.d.ts"],
       "@src/*": ["src/js/*"], // will enable -> import { ... } from '@src/components'
       "@public/*": ["public/*"],
+      "@shaders/*": ["src/shaders/*"],
       "@assets/*": ["src/assets/*"]
     },
   //  "outDir": "dist/",                    // target for compiled files

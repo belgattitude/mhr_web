@@ -31,7 +31,9 @@ class PixiContainer extends React.Component<IProps, IState> {
         videoElement.crossOrigin = 'anonymous';
         videoElement.autoplay = true;
         videoElement.muted = true;
-        videoElement.src = 'http://localhost/paola/deshake.m4v';
+        videoElement.loop = true;
+        //videoElement.src = 'http://localhost/paola/deshake.m4v';
+        videoElement.src = 'http://localhost/paola/trailer_hd.mp4';
         return videoElement;
     }
 
@@ -47,7 +49,6 @@ class PixiContainer extends React.Component<IProps, IState> {
         });
 
         const videoTexture = PIXI.Texture.fromVideo(this.createVideoElement());
-
 
         const videoSprite = new PIXI.Sprite(videoTexture);
 
@@ -83,7 +84,6 @@ class PixiContainer extends React.Component<IProps, IState> {
 
                 vec4 fg = texture2D(uSampler, vTextureCoord);
 
-
                 fg.r = uvs.y + sin(customUniform);
 
                 //fg.r = clamp(fg.r,0.0,0.9);
@@ -112,7 +112,6 @@ class PixiContainer extends React.Component<IProps, IState> {
     }
 
     componentWillUnmount() {
-
 
         // Destroy pixi app
         //this.pixiApp.stage = null as any;

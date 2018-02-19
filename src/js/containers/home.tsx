@@ -41,7 +41,7 @@ class Home extends React.Component<IProps, IState> {
         */
 
         //const video = this.state.videos[this.state.videoIdx];
-        const video = this.state.videos[1];
+        const video = 'http://localhost/paola/trailer_hd.mp4';
         return (
             <div>
                 Homepage...
@@ -50,10 +50,10 @@ class Home extends React.Component<IProps, IState> {
                     <Video title={video.title} src={video.src} />
                 </div>
                 */}
-                {(true) ?
-                    <CubeScene videoSrc={video.src} />
+                {(false) ?
+                    <CubeScene videoSrc={video} />
                     :
-                    <PlaneScene videoSrc={video.src} />
+                    <PlaneScene videoSrc={video} />
                 }
                 <button onClick={this.nextPage}>Next</button>
             </div>

@@ -16,7 +16,10 @@ import {
     WebGLRenderer,
     MeshBasicMaterialParameters,
     ShaderMaterialParameters,
-} from 'three'; //"three/build/three.module"; // 'three';
+    AdditiveBlending,
+} from 'three';
+
+import {IntroFragmentShader, IntroVertexShader} from '@shaders/index';
 
 export interface ITestSceneState {
     width: number;
@@ -49,7 +52,6 @@ export class CubeScene extends React.Component<ITestSceneProps, ITestSceneState>
 
     constructor(props: ITestSceneProps) {
         super(props);
-
         this.state = {...this.state, videoSrc: this.props.videoSrc};
         this.start = this.start.bind(this);
         this.stop = this.stop.bind(this);
@@ -91,6 +93,8 @@ export class CubeScene extends React.Component<ITestSceneProps, ITestSceneState>
         const videoTexture = new VideoTexture( this.video );
         videoTexture.minFilter = LinearFilter;
         videoTexture.format = RGBFormat;
+        //@todo till types are updated to r90
+        (videoTexture as any).frameRate = 24;
 
         const videoMaterial = new MeshBasicMaterial({
             //color: 0xffffff,
@@ -155,7 +159,7 @@ export class CubeScene extends React.Component<ITestSceneProps, ITestSceneState>
     }
 
     animate() {
-        this.cube.rotation.x += 0.01;
+        this.cube.rotation.x += 0.005;
         this.cube.rotation.y += 0.01;
 
         this.renderScene();
@@ -187,7 +191,7 @@ export class PlaneScene extends React.Component<ITestSceneProps, ITestSceneState
     frameId: number;
 
     video: HTMLVideoElement;
-
+    shaderMaterial: ShaderMaterial;
     state: ITestSceneState = {
         width: 600,
         height: 600,
@@ -195,9 +199,11 @@ export class PlaneScene extends React.Component<ITestSceneProps, ITestSceneState
 
     props: ITestSceneProps;
 
+    startTime: number;
+
     constructor(props: ITestSceneProps) {
         super(props);
-
+        this.startTime = Date.now();
         this.state = {...this.state, videoSrc: this.props.videoSrc};
         this.start = this.start.bind(this);
         this.stop = this.stop.bind(this);
@@ -242,8 +248,9 @@ export class PlaneScene extends React.Component<ITestSceneProps, ITestSceneState
         videoTexture.minFilter = LinearFilter;
         videoTexture.magFilter = LinearFilter;
         videoTexture.format = RGBAFormat;
+        (videoTexture as any).frameRate = 24;
 
-        const shaderMaterial = new ShaderMaterial( {
+        this.shaderMaterial = new ShaderMaterial( {
 
             uniforms: {
                 time: { value: 1.0 },
@@ -251,23 +258,9 @@ export class PlaneScene extends React.Component<ITestSceneProps, ITestSceneState
                 video: videoTexture,
             },
 
-            vertexShader: `
-                uniform float time;
-                uniform vec2 resolution;
-                void main()	{
-                    gl_Position = vec4( position, 1.0 );
-                }
-            `,
+            vertexShader: IntroVertexShader,
 
-            fragmentShader: `
-                uniform float time;
-                uniform vec2 resolution;
-                void main()	{
-                    float x = mod(time + gl_FragCoord.x, 20.) < 10. ? 1. : 0.;
-                    float y = mod(time + gl_FragCoord.y, 20.) < 10. ? 1. : 0.;
-                    gl_FragColor = vec4(vec3(min(x, y)), 1.);
-                }
-            `,
+            fragmentShader: IntroFragmentShader,
 
             /*
             fragmentShader: `
@@ -301,14 +294,13 @@ export class PlaneScene extends React.Component<ITestSceneProps, ITestSceneState
         camera.position.z = 2;
         //scene.add(shaderMaterial);
 
-        shaderMaterial.transparent = true;
-        /*
-        const blendings = [ 'NoBlending', 'NormalBlending', 'AdditiveBlending', 'SubtractiveBlending', 'MultiplyBlending' ];
+        this.shaderMaterial.transparent = true;
+        //const blendings = [ 'NoBlending', 'NormalBlending', 'AdditiveBlending', 'SubtractiveBlending', 'MultiplyBlending' ];
 
-        shaderMaterial.blending = THREE[blendings[3]];
-*/
+        this.shaderMaterial.blending = AdditiveBlending;
+
         const planeGeometry = new PlaneGeometry( 2, 2 );
-        const shaderMesh = new Mesh(planeGeometry, shaderMaterial );
+        const shaderMesh = new Mesh(planeGeometry, this.shaderMaterial );
 
         scene.add(shaderMesh);
 
@@ -344,6 +336,8 @@ export class PlaneScene extends React.Component<ITestSceneProps, ITestSceneState
     }
 
     animate() {
+
+        this.shaderMaterial.uniforms.time.value = .00025 * ( Date.now() - this.startTime );
 
         this.renderScene();
         this.frameId = window.requestAnimationFrame(this.animate);
