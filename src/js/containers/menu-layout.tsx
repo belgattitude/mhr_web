@@ -41,8 +41,14 @@ class MenuLayout extends React.Component<IProps, IState> {
 
     }
 
+    protected getPathToImages() {
+        return require.context('@assets/images', true, /\.jpg$/);
+    }
+
+
+
     render() {
-        const pathToImages = require.context('@assets/images', true, /\.jpg$/);
+        const pathToImages = this.getPathToImages();
         const imageUrl = pathToImages('./texture_bg.jpg');
 
         const text = `
@@ -59,8 +65,15 @@ class MenuLayout extends React.Component<IProps, IState> {
             <FadeEl key="cool" content="Hello" target="1" remove={() => { console.log('remove')}} />
         ];
 
+        const images = 'wxqlQkh,G2Whuq3,0bUSEBX'
+            .split(',')
+            .map(id => `https://i.imgur.com/${id}.jpg`);
+
+        const image = images[this.state.count % 3];
+
+
         if (this.state.count % 2 == 0) {
-            elements.push(<Slide text={text} key={`slide-${this.state.count}`} />);
+            elements.push(<Slide text={text} image={image} key={`slide-${this.state.count}`} />);
         }
 
 
@@ -185,7 +198,7 @@ const defaultStyle = {
 };*/
 
 
-class Slide extends React.Component<{ text: string, in?: boolean }, {}> {
+class Slide extends React.Component<{ text: string, image: string, in?: boolean }, {}> {
 
     protected domRef: HTMLDivElement;
     protected tl: TimelineLite;
@@ -196,6 +209,7 @@ class Slide extends React.Component<{ text: string, in?: boolean }, {}> {
 
     componentDidMount() {
         this.tl = new TimelineLite({paused: true});
+        /*
         TweenLite.set(this.domRef, {
             css: {
                 perspective: 500,
@@ -203,12 +217,24 @@ class Slide extends React.Component<{ text: string, in?: boolean }, {}> {
                 transformStyle: "preserve-3d"
             }
         });
+        */
+
+        TweenLite.set(this.domRef, {
+            transformPerspective: 600,
+            perspective: 300,
+            transformStyle: "preserve-3d",
+            autoAlpha: 1
+        });
+
+
         this.splitText = new SplitText(this.domRef, {type: "chars"});
+
         const numChars = this.splitText.chars.length;
 
         const getRandomInt = (min, max) => {
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
+
         for (let i = 0; i < numChars; i++) {
             (this.tl as any).from(this.splitText.chars[i], 0.8,
                 {
@@ -223,7 +249,8 @@ class Slide extends React.Component<{ text: string, in?: boolean }, {}> {
             );
         }
 
-        this.tl.staggerTo(this.splitText.chars, 4, {
+
+        this.tl.staggerTo(this.splitText.chars, 3, {
             css: {
                 transformOrigin: "50% 50% -30px",
                 rotationY: -360,
@@ -231,14 +258,6 @@ class Slide extends React.Component<{ text: string, in?: boolean }, {}> {
                 rotation: 360
             }, ease: Elastic.easeInOut
         }, 0.02, "+=1");
-
-
-        TweenLite.set(this.domRef, {
-            transformPerspective: 600,
-            perspective: 300,
-            transformStyle: "preserve-3d",
-            autoAlpha: 1
-        });
 
     }
 
@@ -250,29 +269,24 @@ class Slide extends React.Component<{ text: string, in?: boolean }, {}> {
         console.log('endListener', this.props.in);
         if (this.props.in) {
             this.tl.play(0).eventCallback('onComplete', () => {
+                console.log('starting', 'onComplete')
                 done();
             });
-
-            /*
-            TweenLite.to(node, 1, {
-                autoAlpha: 1,
-                x: 0,
-                ease: Back.easeOut,
-                onComplete: done
-            });
-            */
         } else {
-            this.tl.reverse().eventCallback('onComplete', () => {
-               console.log('removing', 'onComplete')
-               done();
-            });
-            //TweenLite.to(node, 1, { autoAlpha: 0, x: -100, onComplete: done });
+            this.tl.reverse(0.8)
+                .timeScale(1.5)
+                .eventCallback('onReverseComplete', () => {
+                    console.log('removing', 'onReverseComplete')
+                    done();
+                    delete this.domRef;
+                });
         }
     }
 
     render() {
         const lines = this.props.text.split("\n");
-        console.log('this.props.in', this.props.in);
+
+
         return (
           <Transition
             in={this.props.in}
@@ -290,8 +304,8 @@ class Slide extends React.Component<{ text: string, in?: boolean }, {}> {
                               <React.Fragment key={idx}>
                                   <p>{line.trim()}</p>
                               </React.Fragment>
-
                           ))}
+                          <img className="test" src={this.props.image} />
                       </div>
                   )
               }
