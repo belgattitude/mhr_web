@@ -22,6 +22,7 @@ export const AppBarComponent: React.SFC<AppMenuProps> = (props) => {
     //const menuItems = menu
     const menuItems: MenuLinkProps[]  = [
         {path: '/', label: 'Home'},
+        {path: '/menu-layout', label: 'Menu'},
         {path: '/video-canvas', label: 'Canvas'},
         {path: '/gl-test', label: 'GLTest'},
         {path: '/test-scroll', label: 'Scroll'},

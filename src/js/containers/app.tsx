@@ -13,6 +13,7 @@ import VideoCanvas from '@src/containers/video-canvas';
 import TestScroll from '@src/containers/test-scroll';
 import Transition from '@src/containers/transition';
 import PixiContainer from '@src/containers/pixi-container';
+import MenuLayout from "@src/containers/menu-layout";
 
 class NotFoundComponent extends React.Component<{}, {}> {
     public render() {
@@ -40,6 +41,7 @@ class App extends React.Component<{}, {}> {
                                 <Route exact={true} path="/test-scroll" component={TestScroll}/>
                                 <Route exact={true} path="/transition" component={Transition} />
                                 <Route exact={true} path="/gl-test" component={GLTest}/>
+                                <Route exact={true} path="/menu-layout" component={MenuLayout}/>
                                 <Route exact={true} path="/pixi" component={PixiContainer}/>
                                 <Route component={NotFoundComponent}/>
                             </Switch>
