@@ -249,7 +249,10 @@ class Slide extends React.Component<{ text: string, in?: boolean }, {}> {
     endListener = (node: HTMLElement, done: () => void) => {
         console.log('endListener', this.props.in);
         if (this.props.in) {
-            this.tl.play(0);
+            this.tl.play(0).eventCallback('onComplete', () => {
+                done();
+            });
+
             /*
             TweenLite.to(node, 1, {
                 autoAlpha: 1,
@@ -259,7 +262,10 @@ class Slide extends React.Component<{ text: string, in?: boolean }, {}> {
             });
             */
         } else {
-            this.tl.reverse();
+            this.tl.reverse().eventCallback('onComplete', () => {
+               console.log('removing', 'onComplete')
+               done();
+            });
             //TweenLite.to(node, 1, { autoAlpha: 0, x: -100, onComplete: done });
         }
     }
@@ -270,7 +276,7 @@ class Slide extends React.Component<{ text: string, in?: boolean }, {}> {
         return (
           <Transition
             in={this.props.in}
-            timeout={5000}
+            timeout={2000}
             mountOnEnter={true}
             unmountOnExit={true}
             addEndListener={this.endListener}
