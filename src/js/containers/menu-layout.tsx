@@ -1,6 +1,6 @@
 import React from 'react';
-import Slide from "@src/components/slide";
-import {TransitionGroup} from "react-transition-group";
+import Slide from '@src/components/slide';
+import {TransitionGroup} from 'react-transition-group';
 import './menu-layout.scss';
 
 interface IProps {
@@ -14,13 +14,12 @@ interface IState {
 class MenuLayout extends React.Component<IProps, IState> {
 
     state = {
-        count: 1
+        count: 1,
     };
 
     constructor(props: IProps) {
         super(props);
     }
-
 
     componentDidMount() {
 
@@ -35,17 +34,17 @@ class MenuLayout extends React.Component<IProps, IState> {
         const imageUrl = pathToImages('./texture_bg.jpg');
 
         const texts = [
-            "From the edges of a new born idea.\nI'll find a way to get inside.",
-            "Behind the curtains, under a dress\nA clowny smile on my lips",
-            "Forbidden kisses.\nUnder an ocean of salt.\nSpices",
-            "On his way to how.\nA clever idea of who we are\ndespite te appearances.",
-        ]
+            'From the edges of a new born idea.\nI\'ll find a way to get inside.',
+            'Behind the curtains, under a dress\nA clowny smile on my lips',
+            'Forbidden kisses.\nUnder an ocean of salt.\nSpices',
+            'On his way to how.\nA clever idea of who we are\ndespite te appearances.',
+        ];
 
         const text = texts[(this.state.count % texts.length)];
 
         //const video = 'http://localhost/paola/trailer_hd.mp4';
 
-        let elements: JSX.Element[] = [
+        const elements: JSX.Element[] = [
            /* <FadeEl key="cool" content="Hello" target="1" remove={() => { console.log('remove')}} />*/
         ];
 
@@ -59,7 +58,6 @@ class MenuLayout extends React.Component<IProps, IState> {
 
         elements.push(newSlide);
 
-
         return (
             <div className="main-wrapper">
                 <div className="layers">
@@ -72,10 +70,10 @@ class MenuLayout extends React.Component<IProps, IState> {
                                 </TransitionGroup>
                         </div>
                         <div className="timeline">
-                            <button onClick={(e:any) => {
+                            <button onClick={(e: any) => {
                                 this.setState((prevState, props) => (
                                     {...prevState, count: prevState.count + 1}
-                                ) )
+                                ) );
                             }}>Inc {this.state.count}</button>
                         </div>
                     </div>
@@ -85,6 +83,5 @@ class MenuLayout extends React.Component<IProps, IState> {
         );
     }
 }
-
 
 export default MenuLayout;

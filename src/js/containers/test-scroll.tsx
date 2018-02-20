@@ -3,10 +3,7 @@ import {getVideos, IVideo} from '@src/config';
 import './test-scroll.scss';
 import {TweenMax,  TimelineMax, Elastic, Back} from 'gsap';
 import throttle from 'lodash/throttle';
-//const SplitText = require('@src/thirdparty/SplitText.min');
 import SplitText from '@src/thirdparty/SplitText.min.js';
-
-//import TimelineMax = gsap.TimelineMax;
 
 interface IProps {
     title: string;
@@ -204,8 +201,6 @@ export class BoxMessageAnimation {
             ease: Back.easeOut,
         }, 0.05, '+=0');
 
-
-
         /*
         TweenMax.to(targetId, 1.6,
             {
@@ -243,20 +238,6 @@ export class BoxMessage extends React.Component<IBoxMessage, {}> {
     constructor(props) {
         super(props);
         this.animation = new BoxMessageAnimation({duration: 0.5});
-    }
-
-    componentDidMount() {
-        this.animation.show(this.getDomRoot());
-    }
-
-    componentWillEnter(cb) {
-        alert('WILLENTER');
-        this.animation.show(this.getDomRoot(), cb);
-    }
-
-    componentWillLeave(cb) {
-        alert('WILLLEAVE');
-        this.animation.hide(this.getDomRoot(), cb);
     }
 
     public render() {

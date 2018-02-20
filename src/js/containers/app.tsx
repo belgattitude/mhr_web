@@ -13,7 +13,7 @@ import VideoCanvas from '@src/containers/video-canvas';
 import TestScroll from '@src/containers/test-scroll';
 import Transition from '@src/containers/transition';
 import PixiContainer from '@src/containers/pixi-container';
-import MenuLayout from "@src/containers/menu-layout";
+import MenuLayout from '@src/containers/menu-layout';
 
 class NotFoundComponent extends React.Component<{}, {}> {
     public render() {
