@@ -4,7 +4,13 @@ import SplitText from '@src/thirdparty/SplitText.min.js';
 import {TimelineLite, TweenLite, Back, Elastic} from 'gsap';
 import {Transition} from "react-transition-group";
 
-class Slide extends React.Component<{ text: string, image: string, in?: boolean }, {}> {
+interface ISlideProps {
+    text: string,
+    image: string,
+    in?: boolean
+}
+
+class Slide extends React.Component<ISlideProps, {}> {
     protected domRef: HTMLDivElement;
     protected tl: TimelineLite;
     protected splitText: {
@@ -94,21 +100,18 @@ class Slide extends React.Component<{ text: string, image: string, in?: boolean 
     }
 
     componentWillUnmount() {
-        console.log('component will unmount');
+        // console.log('component will unmount');
     }
 
     endListener = (node: HTMLElement, done: () => void) => {
-        console.log('endListener', this.props.in);
         if (this.props.in) {
             this.tl.play(0).eventCallback('onComplete', () => {
-                console.log('starting', 'onComplete')
                 done();
             });
         } else {
-            this.tl.reverse(0.8)
+            this.tl.reverse('end_of_group_chars')
                 .timeScale(1.5)
                 .eventCallback('onReverseComplete', () => {
-                    console.log('removing', 'onReverseComplete')
                     done();
                     delete this.domRef;
                 });
@@ -126,8 +129,6 @@ class Slide extends React.Component<{ text: string, image: string, in?: boolean 
                 unmountOnExit={true}
                 addEndListener={this.endListener}
             >
-                {state => {
-                    return (
                         <div ref={(el: HTMLDivElement) => {
                             this.domRef = el
                         }}>
@@ -140,14 +141,10 @@ class Slide extends React.Component<{ text: string, image: string, in?: boolean 
                             </div>
                             <img className="test" src={this.props.image} />
                         </div>
-                    )
-                }
-                }
             </Transition>
         )
     }
 
 }
-
 
 export default Slide;

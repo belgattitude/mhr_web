@@ -8,14 +8,12 @@ interface IProps {
 }
 
 interface IState {
-    showSlide: boolean;
     count: number;
 }
 
 class MenuLayout extends React.Component<IProps, IState> {
 
     state = {
-        showSlide: false,
         count: 1
     };
 
@@ -31,7 +29,6 @@ class MenuLayout extends React.Component<IProps, IState> {
     protected getPathToImages() {
         return require.context('@assets/images', true, /\.jpg$/);
     }
-
 
     render() {
         const pathToImages = this.getPathToImages();
@@ -60,15 +57,8 @@ class MenuLayout extends React.Component<IProps, IState> {
 
         const newSlide = <Slide text={text} image={image} key={`slide-${this.state.count}`} />;
 
-        //if (this.state.count > 1) {
-            elements.push(newSlide);
-        //}
+        elements.push(newSlide);
 
-        //if (this.state.count % 2 == 0) {
-            //elements.push(<Slide text={text} image={image} key={`slide-${this.state.count}`} />);
-        //}
-
-        console.log('elements', elements);
 
         return (
             <div className="main-wrapper">
@@ -95,7 +85,6 @@ class MenuLayout extends React.Component<IProps, IState> {
         );
     }
 }
-
 
 
 export default MenuLayout;
