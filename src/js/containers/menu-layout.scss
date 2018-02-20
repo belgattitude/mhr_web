@@ -8,7 +8,7 @@ $font-title: 'Cabin Sketch', 'Quicksand';
 
 
   .layers {
-
+    overflow: hidden;
     img.layer-background {
       position: absolute;
       top: 0;
@@ -32,18 +32,19 @@ $font-title: 'Cabin Sketch', 'Quicksand';
           left: 10%;
           font-family: $font-title;
           font-size: 2em;
-          z-index: 1;
+          text-rendering: optimizeLegibility;
           -webkit-font-smoothing: antialiased;
           -moz-font-smoothing:antialiased;
+
           p {
             margin: 0;
           }
         }
 
       img.test {
-        position: absolute;
-        top: -150%;
-        left: 20%;
+        position: fixed;
+        top: 0;
+        left: 0;
         right: 0;
         bottom: 0;
         width: 100%;
@@ -51,8 +52,7 @@ $font-title: 'Cabin Sketch', 'Quicksand';
         object-fit: cover;
         opacity: 0.9;
         z-index: -1;
-        overflow: hidden;
-
+        mix-blend-mode: difference;
       }
 
       .timeline {
