@@ -49,6 +49,8 @@ class Slide extends React.Component<ISlideProps, {}> {
             transformPerspective: 600,
             perspective: 300,
             transformStyle: 'preserve-3d',
+            opacity: 0.05,
+            //autoAlpha: 1,
             rotationY: 180,
             scale: 5,
         });
@@ -85,8 +87,8 @@ class Slide extends React.Component<ISlideProps, {}> {
         this.tl.to(imgContainer, 3, {
 
             css: {
-                transformOrigin: '50% 50% -30px',
-                scale: 1,
+                //transformOrigin: '50% 50% -30px',
+                scale: 2,
                 //rotation: 0,
                 rotationY: 0,
                 //rotationZ: 0,
@@ -96,7 +98,7 @@ class Slide extends React.Component<ISlideProps, {}> {
             },
 
             //filter: 'blur(0px}',
-            ease: Power2.easeIn
+            ease: Power2.easeInOut
         }, 0);
 
         /*
@@ -141,20 +143,21 @@ class Slide extends React.Component<ISlideProps, {}> {
         const texture = this.props.texture;
         console.log('texture', texture);
         const containerStyle = {
-            backgroundImage: `url(http://localhost:3001${texture})`,
-            //backgroundImage: 'url(http://i.imgbox.com/Vn8MhWzI.png)',
+            //backgroundImage: `url(http://localhost:3001${texture})`,
+            backgroundImage: 'url(http://i.imgbox.com/Vn8MhWzI.png)',
+            //backgroundImage: 'url(http://localhost/paola/lights-17718_960_720.jpg)',
             backgroundSize: "cover",
         };
 
         const imageStyle = {
             //backgroundBlendMode: 'multiply',
-            mixBlendMode: 'multiply',
+            mixBlendMode: 'color-dodge',//'difference',//'lighten',
 
         };
         return (
             <Transition
                 in={this.props.in}
-                timeout={5000}
+                timeout={{}} /* hack to set no timeout - we use addEndListener instead */
                 mountOnEnter={true}
                 unmountOnExit={true}
                 addEndListener={this.endListener}
