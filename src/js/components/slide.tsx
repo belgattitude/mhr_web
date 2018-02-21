@@ -1,25 +1,28 @@
 import React from 'react';
 import SplitText from '@src/thirdparty/SplitText.min.js';
 
-import {TimelineLite, TweenLite, Back, Elastic} from 'gsap';
+import {TimelineMax, TweenLite, Back, Elastic, Power2} from 'gsap';
 import {Transition} from 'react-transition-group';
 
 export interface ISlideProps {
     text: string;
     image: string;
+    texture: string;
     in?: boolean;
 }
 
 class Slide extends React.Component<ISlideProps, {}> {
     protected domRef: HTMLDivElement;
-    protected tl: TimelineLite;
+    protected tl: TimelineMax;
     protected splitText: {
         chars: string[],
         words: string[],
     };
 
     componentDidMount() {
-        this.tl = new TimelineLite({paused: true});
+        this.tl = new TimelineMax({paused: true});
+
+        // Preset original perspective
         /*
         TweenLite.set(this.domRef, {
             css: {
@@ -30,18 +33,28 @@ class Slide extends React.Component<ISlideProps, {}> {
         });
         */
 
-        const textTarget = this.domRef.querySelector('div');
         // todo need to test null
-        const imgTarget = (this.domRef.querySelector('img') as HTMLImageElement);
+        const textContainer = (this.domRef.querySelector("div[class='headline']") as HTMLDivElement);
+        const imgContainer = (this.domRef.querySelector("div[class='image']") as HTMLDivElement);
 
-        TweenLite.set(textTarget, {
+        TweenLite.set(textContainer, {
             transformPerspective: 600,
             perspective: 300,
             transformStyle: 'preserve-3d',
             autoAlpha: 1,
         });
 
-        this.splitText = new SplitText(textTarget, {type: 'chars'});
+
+        TweenLite.set(imgContainer, {
+            transformPerspective: 600,
+            perspective: 300,
+            transformStyle: 'preserve-3d',
+            rotationY: 180,
+            scale: 5,
+        });
+
+
+        this.splitText = new SplitText(textContainer, {type: 'chars'});
 
         const numChars = this.splitText.chars.length;
 
@@ -69,15 +82,21 @@ class Slide extends React.Component<ISlideProps, {}> {
 
         this.tl.add('end_of_group_chars', groupCharsDuration);
 
-        this.tl.from(imgTarget, 3, {
+        this.tl.to(imgContainer, 3, {
+
             css: {
-                //scale: 5,
+                transformOrigin: '50% 50% -30px',
+                scale: 1,
                 //rotation: 0,
-                opacity: 0,
+                rotationY: 0,
+                //rotationZ: 0,
+                rotation: 360,
+                opacity: 1,
                 //filter:
             },
-            filter: 'blur(0px}',
-            //ease: Back.easeInOut
+
+            //filter: 'blur(0px}',
+            ease: Power2.easeIn
         }, 0);
 
         /*
@@ -109,7 +128,7 @@ class Slide extends React.Component<ISlideProps, {}> {
             });
         } else {
             this.tl.reverse('end_of_group_chars')
-                .timeScale(1.5)
+                .timeScale(0.2)
                 .eventCallback('onReverseComplete', () => {
                     done();
                     delete this.domRef;
@@ -119,26 +138,40 @@ class Slide extends React.Component<ISlideProps, {}> {
 
     render() {
         const lines = this.props.text.split('\n');
+        const texture = this.props.texture;
+        console.log('texture', texture);
+        const containerStyle = {
+            backgroundImage: `url(http://localhost:3001${texture})`,
+            //backgroundImage: 'url(http://i.imgbox.com/Vn8MhWzI.png)',
+            backgroundSize: "cover",
+        };
 
+        const imageStyle = {
+            //backgroundBlendMode: 'multiply',
+            mixBlendMode: 'multiply',
+
+        };
         return (
             <Transition
                 in={this.props.in}
-                timeout={2000}
+                timeout={5000}
                 mountOnEnter={true}
                 unmountOnExit={true}
                 addEndListener={this.endListener}
             >
-                        <div ref={(el: HTMLDivElement) => {
+                        <div className="slide" ref={(el: HTMLDivElement) => {
                             this.domRef = el;
                         }}>
-                            <div>
+                            <div className="headline">
                                 {lines.map((line, idx) => (
                                     <React.Fragment key={idx}>
                                         <p>{line.trim()}</p>
                                     </React.Fragment>
                                 ))}
                             </div>
-                            <img className="test" src={this.props.image} />
+                            <div className="image" style={containerStyle}>
+                                <img style={imageStyle} className="test" src={this.props.image} />
+                            </div>
                         </div>
             </Transition>
         );

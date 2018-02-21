@@ -26,34 +26,44 @@ $font-title: 'Cabin Sketch', 'Quicksand';
 
     .layer {
       overflow: hidden;
-        .title {
-          position: absolute;
-          top: 40%;
-          left: 10%;
-          font-family: $font-title;
-          font-size: 2em;
-          text-rendering: optimizeLegibility;
-          -webkit-font-smoothing: antialiased;
-          -moz-font-smoothing:antialiased;
 
-          p {
-            margin: 0;
+        .slide {
+          .headline {
+
+            position: absolute;
+            top: 40%;
+            left: 10%;
+            font-family: $font-title;
+            font-size: 2.5em;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-font-smoothing:antialiased;
+            p {
+              margin: 0;
+            }
+          }
+          .image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            perspective: 1200px;
+            transform-style: preserve-3d;
+            z-index: -1;
+            opacity: 0;
+            //background-image: url(http://i.imgbox.com/Vn8MhWzI.png);
+            //background-size: cover;
+            img {
+              // transform: rotateY(45deg);
+              width: 100%;
+              object-fit: cover;
+            }
           }
         }
 
-      img.test {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        opacity: 0.9;
-        z-index: -1;
-        mix-blend-mode: difference;
-      }
 
       .timeline {
         position: absolute;

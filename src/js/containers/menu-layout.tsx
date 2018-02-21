@@ -31,7 +31,7 @@ class MenuLayout extends React.Component<IProps, IState> {
 
     render() {
         const pathToImages = this.getPathToImages();
-        const imageUrl = pathToImages('./texture_bg.jpg');
+        const textureUrl = pathToImages('./texture_bg.jpg');
 
         const texts = [
             'From the edges of a new born idea.\nI\'ll find a way to get inside.',
@@ -54,14 +54,14 @@ class MenuLayout extends React.Component<IProps, IState> {
 
         const image = images[this.state.count % 3];
 
-        const newSlide = <Slide text={text} image={image} key={`slide-${this.state.count}`} />;
+        const newSlide = <Slide text={text} image={image} texture={textureUrl} key={`slide-${this.state.count}`} />;
 
         elements.push(newSlide);
 
         return (
             <div className="main-wrapper">
                 <div className="layers">
-                    <img className="layer-background" src={imageUrl}/>
+                    <img className="layer-background" src={textureUrl}/>
                     <div className="layer">
 
                         <div className="title">
