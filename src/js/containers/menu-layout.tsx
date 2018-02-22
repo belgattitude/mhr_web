@@ -22,7 +22,7 @@ class MenuLayout extends React.Component<IProps, IState> {
 
     constructor(props: IProps) {
         super(props);
-        this.handleWheel = throttle(this.handleWheel.bind(this), 5000, {
+        this.handleWheel = throttle(this.handleWheel.bind(this), 500, {
             leading: false,
             trailing: false,
         });
@@ -38,8 +38,7 @@ class MenuLayout extends React.Component<IProps, IState> {
 
     handleWheel(e: React.WheelEvent<HTMLDivElement>): void {
 
-
-        e.preventDefault();
+       // e.preventDefault();
 
         enum Direction {Up, Down, Right, Left, Unknown}
         let direction: Direction = Direction.Unknown;

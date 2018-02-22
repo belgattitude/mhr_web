@@ -7,8 +7,16 @@ $font-title: 'Cabin Sketch', 'Quicksand';
 .main-wrapper {
 
 
+  position: relative;
+
+  width: 100%;
+  height: 90vh;
+  overflow: hidden;
+  z-index: 2;
+
+
   .layers {
-    overflow: hidden;
+
     img.layer-background {
       position: absolute;
       top: 0;
