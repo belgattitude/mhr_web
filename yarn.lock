@@ -3244,7 +3244,7 @@ fb-watchman@^2.0.0:
   dependencies:
     bser "^2.0.0"
 
-fbjs@^0.8.16:
+fbjs@^0.8.0, fbjs@^0.8.16:
   version "0.8.16"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.16.tgz#5e67432f550dc41b572bf55847b8aca64e5337db"
   dependencies:
@@ -3587,24 +3587,26 @@ gl-format-compiler-error@^1.0.2:
     glsl-shader-name "^1.0.0"
     sprintf-js "^1.0.3"
 
-gl-react-dom@^3.13.0:
-  version "3.13.0"
-  resolved "https://registry.yarnpkg.com/gl-react-dom/-/gl-react-dom-3.13.0.tgz#e9c1372a0120eed06ab7bf969ab5d5ebcfa8e74a"
+gl-react-dom@^3.14.0:
+  version "3.14.0"
+  resolved "https://registry.yarnpkg.com/gl-react-dom/-/gl-react-dom-3.14.0.tgz#2e0ee68f47f3bee665e2aa3ff76cb9b5495c5a39"
   dependencies:
     invariant "^2.2.1"
     prop-types "^15.5.8"
     raf "^3.3.0"
+    webgltexture-loader-dom "^0.6.0"
 
-gl-react@^3.13.0:
-  version "3.13.0"
-  resolved "https://registry.yarnpkg.com/gl-react/-/gl-react-3.13.0.tgz#d1fcba4d38033a984dfda4a1a9ac110311936241"
+gl-react@^3.14.0:
+  version "3.14.0"
+  resolved "https://registry.yarnpkg.com/gl-react/-/gl-react-3.14.0.tgz#efc462c554d817988a0e874bced94422d63a52e9"
   dependencies:
     gl-shader "^4.2.1"
     invariant "^2.2.1"
     ndarray "^1.0.18"
-    ndarray-ops "^1.2.2"
     prop-types "^15.5.8"
     typedarray-pool "^1.1.0"
+    webgltexture-loader "^0.6.0"
+    webgltexture-loader-ndarray "^0.6.0"
 
 gl-shader@^4.2.1:
   version "4.2.1"
@@ -6655,9 +6657,9 @@ postcss-load-plugins@^2.3.0:
     cosmiconfig "^2.1.1"
     object-assign "^4.1.0"
 
-postcss-loader@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/postcss-loader/-/postcss-loader-2.1.0.tgz#038c2d6d59753fef4667827fd3ae03f5dc5e6a7a"
+postcss-loader@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/postcss-loader/-/postcss-loader-2.1.1.tgz#208935af3b1d65e1abb1a870a912dd12e7b36895"
   dependencies:
     loader-utils "^1.1.0"
     postcss "^6.0.0"
@@ -7092,10 +7094,11 @@ react-motion@^0.5.2:
     prop-types "^15.5.8"
     raf "^3.1.0"
 
-react-pixi-fiber@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/react-pixi-fiber/-/react-pixi-fiber-0.3.0.tgz#91f86cf5a292747c6adf1556260bed5ba1176767"
+react-pixi-fiber@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/react-pixi-fiber/-/react-pixi-fiber-0.3.1.tgz#e888f4cd3a80380238f48dd6d51ffe701dbb994c"
   dependencies:
+    fbjs "^0.8.0"
     performance-now "^2.1.0"
     react-reconciler "^0.7.0"
 
@@ -9014,13 +9017,52 @@ weakmap-shim@^1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/weakmap-shim/-/weakmap-shim-1.1.1.tgz#d65afd784109b2166e00ff571c33150ec2a40b49"
 
+webgltexture-loader-dom-canvas@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/webgltexture-loader-dom-canvas/-/webgltexture-loader-dom-canvas-0.6.0.tgz#46f24533e4ed7e78902850ea79e053608c6516fa"
+  dependencies:
+    webgltexture-loader "^0.6.0"
+
+webgltexture-loader-dom-image-url@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/webgltexture-loader-dom-image-url/-/webgltexture-loader-dom-image-url-0.6.0.tgz#3c7faac7bf93a2e61ccfd2085b499750f603a48f"
+  dependencies:
+    webgltexture-loader "^0.6.0"
+
+webgltexture-loader-dom-video@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/webgltexture-loader-dom-video/-/webgltexture-loader-dom-video-0.6.0.tgz#5384cd75868c50948a42c9bbaa20e20e8a923727"
+  dependencies:
+    webgltexture-loader "^0.6.0"
+
+webgltexture-loader-dom@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/webgltexture-loader-dom/-/webgltexture-loader-dom-0.6.0.tgz#813666bb4fbd87d4c3b2f98f197e8be00a4c8c90"
+  dependencies:
+    webgltexture-loader-dom-canvas "^0.6.0"
+    webgltexture-loader-dom-image-url "^0.6.0"
+    webgltexture-loader-dom-video "^0.6.0"
+
+webgltexture-loader-ndarray@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/webgltexture-loader-ndarray/-/webgltexture-loader-ndarray-0.6.0.tgz#898b3d8d1fde4eba9682eb41ba922fa2757eef35"
+  dependencies:
+    ndarray "^1.0.18"
+    ndarray-ops "^1.2.2"
+    typedarray-pool "^1.1.0"
+    webgltexture-loader "^0.6.0"
+
+webgltexture-loader@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/webgltexture-loader/-/webgltexture-loader-0.6.0.tgz#95368723999dcc4c24024115375ab3ec18baf3fd"
+
 webidl-conversions@^4.0.1, webidl-conversions@^4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-4.0.2.tgz#a855980b1f0b6b359ba1d5d9fb39ae941faa63ad"
 
-webpack-bundle-analyzer@^2.10.1:
-  version "2.10.1"
-  resolved "https://registry.yarnpkg.com/webpack-bundle-analyzer/-/webpack-bundle-analyzer-2.10.1.tgz#544db56754b6737451f69d5fca7c0be5fe30987f"
+webpack-bundle-analyzer@^2.11.0:
+  version "2.11.0"
+  resolved "https://registry.yarnpkg.com/webpack-bundle-analyzer/-/webpack-bundle-analyzer-2.11.0.tgz#ed6f6ab59f5b341ffb60849ca707a7fe841c4f86"
   dependencies:
     acorn "^5.3.0"
     bfj-node4 "^5.2.0"
